@@ -37,7 +37,6 @@ async function carregarSecoes() {
 
     }
     
-    configurarSeletorPersonagens();
 
     // =================================
 // WARP PIPE SCROLL
@@ -188,6 +187,20 @@ const personagens = {
 
 
 // =================================
+// EFEITOS COMPARTILHADOS (js/navbar.js)
+// Se o módulo não carregar, o site continua
+// funcionando, apenas sem os efeitos extras.
+// =================================
+
+const FX = window.MarioFX || {
+    menosMovimento: () => true,
+    reiniciarAnimacao: () => {},
+    particulas: () => {},
+    moeda: () => {}
+};
+
+
+// =================================
 // SELETOR DE PERSONAGENS
 // =================================
 
@@ -200,6 +213,93 @@ function configurarSeletorPersonagens() {
     const nome = document.getElementById("nome-personagem");
     const descricao = document.getElementById("descricao-personagem");
 
+    if (!imagem || botoes.length === 0) return;
+
+    const arte = imagem.closest(".personagem-arte");
+    const info = document.querySelector(".personagem-info");
+
+    // Ordem dos botões: define para que lado a imagem desliza
+    const ordem = Array.from(botoes).map(botao => botao.dataset.personagem);
+
+    const ativoInicial = document.querySelector(".personagem-btn.ativo");
+
+    let atual = ativoInicial ? ativoInicial.dataset.personagem : ordem[0];
+
+    // Evita que cliques rápidos se atropelem
+    let tokenTroca = 0;
+
+    // Atualiza as informações (lógica original)
+    function aplicarDados(dados) {
+
+        imagem.src = dados.imagem;
+        imagem.alt = dados.nome;
+
+        categoria.textContent = dados.categoria;
+        nome.textContent = dados.nome;
+        descricao.textContent = dados.descricao;
+    }
+
+    // Transição: sai o personagem atual, entra o novo
+    function trocarComAnimacao(dados, direcao) {
+
+        const meuToken = ++tokenTroca;
+
+        if (FX.menosMovimento()) {
+            aplicarDados(dados);
+            return;
+        }
+
+        imagem.style.setProperty("--dir", direcao);
+
+        imagem.classList.remove("troca-entrada");
+        imagem.classList.add("troca-saida");
+
+        if (info) {
+            info.classList.remove("troca-entrada");
+            info.classList.add("troca-saida");
+        }
+
+        setTimeout(() => {
+
+            if (meuToken !== tokenTroca) return;
+
+            // Pré-carrega para a imagem nova não "piscar"
+            const preCarga = new Image();
+
+            const concluir = () => {
+
+                if (meuToken !== tokenTroca) return;
+
+                aplicarDados(dados);
+
+                imagem.classList.remove("troca-saida");
+                if (info) info.classList.remove("troca-saida");
+
+                // Reinicia a animação de entrada
+                void imagem.offsetWidth;
+
+                imagem.classList.add("troca-entrada");
+                if (info) info.classList.add("troca-entrada");
+                if (arte) arte.classList.add("troca-brilho");
+
+                setTimeout(() => {
+
+                    if (meuToken !== tokenTroca) return;
+
+                    imagem.classList.remove("troca-entrada");
+                    if (info) info.classList.remove("troca-entrada");
+                    if (arte) arte.classList.remove("troca-brilho");
+
+                }, 750);
+            };
+
+            preCarga.onload = concluir;
+            preCarga.onerror = concluir;
+            preCarga.src = dados.imagem;
+
+        }, 180);
+    }
+
     botoes.forEach(botao => {
 
         botao.addEventListener("click", function() {
@@ -210,14 +310,6 @@ function configurarSeletorPersonagens() {
 
             if (!dados) return;
 
-            // Atualiza as informações
-            imagem.src = dados.imagem;
-            imagem.alt = dados.nome;
-
-            categoria.textContent = dados.categoria;
-            nome.textContent = dados.nome;
-            descricao.textContent = dados.descricao;
-
             // Atualiza o botão ativo
             botoes.forEach(botao => {
                 botao.classList.remove("ativo");
@@ -225,7 +317,43 @@ function configurarSeletorPersonagens() {
 
             this.classList.add("ativo");
 
+            // Feedback no botão clicado
+            FX.reiniciarAnimacao(this.querySelector("img"), "pulinho", 520);
+
+            const caixa = this.getBoundingClientRect();
+
+            FX.particulas(
+                caixa.left + caixa.width / 2,
+                caixa.top + 20,
+                { quantidade: 7, distancia: 55, tamanho: 7, estrela: true, gravidade: 25 }
+            );
+
+            // Mesmo personagem: mantém o comportamento original
+            // (reaplica os dados do catálogo), sem animação de troca
+            if (personagemSelecionado === atual) {
+                aplicarDados(dados);
+                return;
+            }
+
+            const direcao =
+                ordem.indexOf(personagemSelecionado) >= ordem.indexOf(atual) ? 1 : -1;
+
+            atual = personagemSelecionado;
+
+            trocarComAnimacao(dados, direcao);
+
         });
+
+    });
+
+    // Clicar no personagem: um pulinho e uma moeda
+    imagem.addEventListener("click", () => {
+
+        FX.reiniciarAnimacao(imagem, "pulando", 650);
+
+        const caixa = imagem.getBoundingClientRect();
+
+        FX.moeda(caixa.left + caixa.width / 2, caixa.top + caixa.height * 0.25);
 
     });
 
@@ -277,6 +405,7 @@ function configurarBlocosMisteriosos() {
         const imagem = card.querySelector(".imagem-descoberta");
         const titulo = card.querySelector("h3");
         const descricao = card.querySelector(".bloco-descricao");
+        const arte = card.querySelector(".bloco-arte");
 
         const item = card.dataset.item;
 
@@ -284,29 +413,29 @@ function configurarBlocosMisteriosos() {
         titulo.dataset.original = titulo.textContent;
         descricao.dataset.original = descricao.textContent;
 
-        botao.addEventListener("click", () => {
+        // Centro da área do bloco, para posicionar os efeitos
+        function centroDoBloco() {
+            const caixa = arte.getBoundingClientRect();
+            return { x: caixa.left + caixa.width / 2, y: caixa.top + caixa.height / 2 };
+        }
 
-            // Voltar ao bloco original
-            if (card.classList.contains("descoberto")) {
+        // Voltar ao bloco original (lógica original)
+        function voltarAoBloco() {
 
-                imagem.src = "images/caixa-interrogacao.png";
-                imagem.alt = "Bloco de interrogação";
+            imagem.src = "images/caixa-interrogacao.png";
+            imagem.alt = "Bloco de interrogação";
 
-                titulo.textContent = titulo.dataset.original;
-                descricao.textContent = descricao.dataset.original;
+            titulo.textContent = titulo.dataset.original;
+            descricao.textContent = descricao.dataset.original;
 
-                botao.textContent = "CLIQUE PARA DESCOBRIR";
+            botao.textContent = "CLIQUE PARA DESCOBRIR";
 
-                card.classList.remove("descoberto");
+            card.classList.remove("descoberto");
+        }
 
-                return;
-            }
+        // Mostrar descoberta (lógica original)
+        function mostrarDescoberta(descoberta) {
 
-            const descoberta = descobertas[item];
-
-            if (!descoberta) return;
-
-            // Mostrar descoberta
             imagem.src = descoberta.imagem;
             imagem.alt = descoberta.nome;
 
@@ -316,6 +445,76 @@ function configurarBlocosMisteriosos() {
             botao.textContent = "VOLTAR AO BLOCO";
 
             card.classList.add("descoberto");
+        }
+
+        botao.addEventListener("click", () => {
+
+            // Evita duplo clique durante a animação
+            if (card.dataset.ocupado === "1") return;
+
+            // Voltar ao bloco original
+            if (card.classList.contains("descoberto")) {
+
+                const { x, y } = centroDoBloco();
+
+                voltarAoBloco();
+
+                // Feedback: poeira + o bloco "cai" de volta no lugar
+                FX.particulas(x, y + 30, {
+                    paleta: "poeira",
+                    quantidade: 8,
+                    distancia: 60,
+                    tamanho: 8,
+                    gravidade: 20
+                });
+
+                FX.reiniciarAnimacao(card, "bloco-retorno", 600);
+                FX.reiniciarAnimacao(card, "bloco-trocou", 600);
+
+                return;
+            }
+
+            const descoberta = descobertas[item];
+
+            if (!descoberta) return;
+
+            // Sem animações: comportamento original, direto
+            if (FX.menosMovimento()) {
+                mostrarDescoberta(descoberta);
+                return;
+            }
+
+            // 1) Impacto: o bloco é "acertado" por baixo
+            card.dataset.ocupado = "1";
+
+            FX.reiniciarAnimacao(card, "bloco-impacto", 400);
+
+            // 2) No ponto mais alto do impacto, o item surge
+            setTimeout(() => {
+
+                card.classList.remove("bloco-impacto");
+
+                mostrarDescoberta(descoberta);
+
+                FX.reiniciarAnimacao(card, "bloco-trocou", 600);
+
+                const { x, y } = centroDoBloco();
+
+                FX.particulas(x, y - 10, {
+                    paleta: item,
+                    quantidade: 14,
+                    distancia: 110,
+                    tamanho: 9,
+                    estrela: item === "estrela" || item === "moeda"
+                });
+
+                if (item === "moeda") {
+                    FX.moeda(x, y - 30);
+                }
+
+                card.dataset.ocupado = "0";
+
+            }, 190);
 
         });
 
@@ -323,13 +522,236 @@ function configurarBlocosMisteriosos() {
 
 }
 
+
+// =================================
+// REVELAR AO ROLAR (IntersectionObserver)
+// Atua apenas nas seções 02 e 03.
+// A Seção 01 nunca é selecionada.
+// =================================
+
+function prepararRevelacoes() {
+
+    if (FX.menosMovimento()) return;
+
+    const grupos = [];
+
+    // O HTML da seção 02 tem um <header> aninhado: o último
+    // elemento encontrado é sempre o cabeçalho "de verdade".
+    const cabecalhos02 = document.querySelectorAll("#nostalgia .cabecalho-personagens");
+
+    if (cabecalhos02.length) {
+        grupos.push({ elementos: [cabecalhos02[cabecalhos02.length - 1]], tipo: "rv-subir", passo: 0 });
+    }
+
+    grupos.push(
+        { elementos: document.querySelectorAll("#nostalgia .personagem-principal"), tipo: "rv-subir", passo: 0, base: 0.1 },
+        { elementos: document.querySelectorAll("#nostalgia .personagem-btn"),        tipo: "rv-pop",   passo: 0.06 },
+        { elementos: document.querySelectorAll("#interesse .cabecalho-interesse"),   tipo: "rv-subir", passo: 0 },
+        { elementos: document.querySelectorAll("#interesse .bloco-card"),            tipo: "rv-pop",   passo: 0.12 },
+        { elementos: document.querySelectorAll("#interesse .encerramento-museu"),    tipo: "rv-subir", passo: 0 }
+    );
+
+    const todos = [];
+
+    grupos.forEach(grupo => {
+
+        Array.from(grupo.elementos).forEach((elemento, indice) => {
+
+            elemento.classList.add("rv", grupo.tipo);
+
+            elemento.style.setProperty(
+                "--rv-atraso",
+                ((grupo.base || 0) + indice * grupo.passo).toFixed(2) + "s"
+            );
+
+            todos.push(elemento);
+
+        });
+
+    });
+
+    // Navegadores antigos: mostra tudo de uma vez
+    if (!("IntersectionObserver" in window)) {
+        todos.forEach(elemento => elemento.classList.add("revelado"));
+        return;
+    }
+
+    const observador = new IntersectionObserver((entradas) => {
+
+        entradas.forEach(entrada => {
+
+            if (!entrada.isIntersecting) return;
+
+            entrada.target.classList.add("revelado");
+
+            observador.unobserve(entrada.target);
+
+        });
+
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+    todos.forEach(elemento => observador.observe(elemento));
+
+}
+
+
+// =================================
+// ELEMENTOS FLUTUANTES + PARALLAX DISCRETO
+// Moedas, estrelas e itens nos fundos das
+// seções 02 e 03. Ficam atrás do conteúdo.
+// =================================
+
+const itensFlutuantes = {
+
+    "#nostalgia": [
+        { imagem: "images/moeda.png",         x: "11%", y: "7%",  tamanho: 52, vel: -0.10, duracao: 5.2, atraso: 0 },
+        { imagem: "images/super-estrela.png", x: "84%", y: "14%", tamanho: 58, vel:  0.14, duracao: 6.0, atraso: -2 },
+        { imagem: "images/super-cogumelo.png", x: "6%", y: "72%", tamanho: 50, vel:  0.08, duracao: 4.6, atraso: -1 }
+    ],
+
+    "#interesse": [
+        { imagem: "images/flor-de-fogo.png",  x: "85%", y: "5%",  tamanho: 54, vel: -0.12, duracao: 5.6, atraso: -1 },
+        { imagem: "images/moeda.png",         x: "8%",  y: "11%", tamanho: 48, vel:  0.10, duracao: 4.8, atraso: -3 },
+        { imagem: "images/super-estrela.png", x: "90%", y: "86%", tamanho: 52, vel: -0.08, duracao: 6.2, atraso: 0 }
+    ]
+
+};
+
+function criarFlutuantes() {
+
+    Object.keys(itensFlutuantes).forEach(seletor => {
+
+        const secao = document.querySelector(seletor);
+
+        if (!secao || secao.querySelector(".fx-flutuantes")) return;
+
+        const camada = document.createElement("div");
+
+        camada.className = "fx-flutuantes";
+        camada.setAttribute("aria-hidden", "true");
+
+        itensFlutuantes[seletor].forEach(dados => {
+
+            const item = document.createElement("span");
+
+            item.className = "fx-item";
+            item.dataset.vel = dados.vel;
+
+            item.style.setProperty("--x", dados.x);
+            item.style.setProperty("--y", dados.y);
+            item.style.setProperty("--t", dados.tamanho + "px");
+            item.style.setProperty("--dur", dados.duracao + "s");
+            item.style.setProperty("--atraso", dados.atraso + "s");
+
+            const figura = document.createElement("img");
+
+            figura.src = dados.imagem;
+            figura.alt = "";
+            figura.draggable = false;
+
+            // Se a imagem não existir, o elemento some sem deixar rastro
+            figura.onerror = () => item.remove();
+
+            item.appendChild(figura);
+            camada.appendChild(item);
+
+        });
+
+        secao.prepend(camada);
+
+    });
+
+}
+
+function configurarParallax() {
+
+    if (FX.menosMovimento()) return;
+
+    const grupos = Array.from(document.querySelectorAll(".fx-flutuantes")).map(camada => ({
+        secao: camada.parentElement,
+        camada: camada,
+        visivel: false
+    }));
+
+    if (!grupos.length || !("IntersectionObserver" in window)) return;
+
+    let pendente = false;
+
+    function atualizar() {
+
+        pendente = false;
+
+        const meioDaTela = window.innerHeight / 2;
+
+        grupos.forEach(grupo => {
+
+            if (!grupo.visivel) return;
+
+            const caixa = grupo.secao.getBoundingClientRect();
+
+            const deslocamento = (caixa.top + caixa.height / 2) - meioDaTela;
+
+            grupo.camada.querySelectorAll(".fx-item").forEach(item => {
+
+                const velocidade = parseFloat(item.dataset.vel) || 0;
+
+                item.style.setProperty(
+                    "--py",
+                    (deslocamento * velocidade).toFixed(1) + "px"
+                );
+
+            });
+
+        });
+
+    }
+
+    function agendar() {
+
+        if (pendente) return;
+
+        pendente = true;
+
+        requestAnimationFrame(atualizar);
+    }
+
+    // Só calcula para as seções que estão na tela
+    const observador = new IntersectionObserver((entradas) => {
+
+        entradas.forEach(entrada => {
+
+            const grupo = grupos.find(g => g.secao === entrada.target);
+
+            if (grupo) grupo.visivel = entrada.isIntersecting;
+
+        });
+
+        agendar();
+
+    }, { rootMargin: "120px 0px" });
+
+    grupos.forEach(grupo => observador.observe(grupo.secao));
+
+    window.addEventListener("scroll", agendar, { passive: true });
+    window.addEventListener("resize", agendar);
+
+}
+
+
 carregarSecoes()
     .then(() => {
         configurarSeletorPersonagens();
         configurarWarpScroll();
         configurarBlocosMisteriosos();
+
+        prepararRevelacoes();
+        criarFlutuantes();
+        configurarParallax();
+
+        if (window.MarioNav) {
+            window.MarioNav.iniciarScrollspy();
+        }
     })
     .catch((erro) => {
         console.error("Erro ao montar o museu:", erro);
     });
-

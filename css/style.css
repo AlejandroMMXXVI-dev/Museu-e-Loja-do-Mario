@@ -168,7 +168,10 @@ BARRA DE NAVEGAÇÃO
 }
 
 .perfil-icone {
-    font-size: 25px;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    display: block;
 }
 
 .seta-dropdown {
@@ -948,18 +951,32 @@ BARRA DE NAVEGAÇÃO
 }
 
 .bloco-card.descoberto .imagem-descoberta {
-    animation: aparecer-descoberta 0.5s ease forwards;
+    animation: aparecer-descoberta 0.75s cubic-bezier(.22, 1, .36, 1),
+               flutuar-bloco 2.5s ease-in-out 0.75s infinite;
 }
 
 @keyframes aparecer-descoberta {
-    from {
+    0% {
         opacity: 0;
-        transform: scale(0.4) rotate(-20deg);
+        transform: translateY(46px) scale(0.35) rotate(-18deg);
+        filter: brightness(2.4);
     }
 
-    to {
+    55% {
         opacity: 1;
-        transform: scale(1) rotate(0deg);
+        transform: translateY(-34px) scale(1.18) rotate(6deg);
+        filter: brightness(1.5);
+    }
+
+    78% {
+        transform: translateY(4px) scale(0.96) rotate(-2deg);
+        filter: brightness(1.1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+        filter: brightness(1);
     }
 }
 
@@ -1108,5 +1125,645 @@ BARRA DE NAVEGAÇÃO
     .personagem-btn img {
         width: 55px;
         height: 55px;
+    }
+}
+
+
+/* =====================================================================
+   =====================================================================
+   MELHORIAS DE INTERATIVIDADE E ANIMAÇÃO
+   ---------------------------------------------------------------------
+   Tudo abaixo usa classes próprias ou escopo explícito. Nada aqui
+   seleciona a Seção 01 nem as classes do macacão do Luigi.
+   ===================================================================== */
+
+
+/* =================================
+   FX — CAMADAS DE EFEITOS (js/navbar.js)
+================================= */
+
+.fx-camada {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.fx-particula {
+    position: absolute;
+    border-radius: 2px;
+    will-change: transform, opacity;
+}
+
+.fx-estrela {
+    border-radius: 0;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.fx-moeda {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    will-change: transform, opacity;
+}
+
+/* Transição entre páginas (íris) */
+
+.fx-warp-camada {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.fx-warp {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffd500;
+    transform: scale(0);
+    will-change: transform;
+}
+
+.fx-warp-azul {
+    background: #104eae;
+}
+
+
+/* =================================
+   NAVBAR
+================================= */
+
+.navbar {
+    transition: box-shadow 0.3s ease;
+}
+
+.navbar.navbar-rolando {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38);
+}
+
+/* Logo */
+
+.navbar-logo .logo-mario {
+    transition: transform 0.25s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.navbar-logo:hover .logo-mario {
+    transform: scale(1.05) rotate(-1.5deg);
+}
+
+/* Links */
+
+.nav-link {
+    transition: color 0.2s ease,
+                transform 0.25s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+.nav-link:active {
+    transform: translateY(0) scale(0.96);
+}
+
+/* Página / seção ativa */
+
+.nav-link.ativo {
+    color: #ffd500;
+}
+
+.nav-link.ativo::after {
+    width: 100%;
+}
+
+/* Foco por teclado */
+
+.nav-link:focus-visible,
+.navbar-logo:focus-visible,
+.perfil-botao:focus-visible,
+.dropdown-entrar:focus-visible,
+.dropdown-cadastrar:focus-visible,
+.personagem-btn:focus-visible,
+.botao-descobrir:focus-visible,
+.botao-loja:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
+
+/* Botão de perfil */
+
+.perfil-botao:active {
+    transform: translateY(0) scale(0.96);
+}
+
+.seta-dropdown {
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+.perfil-dropdown[open] .seta-dropdown {
+    transform: rotate(180deg);
+}
+
+/* Dropdown: abertura e fechamento */
+
+.perfil-dropdown[open] .dropdown-conteudo {
+    transform-origin: top right;
+    animation: dropdown-abrir 0.24s cubic-bezier(.34, 1.4, .64, 1) both;
+}
+
+.perfil-dropdown.fechando .dropdown-conteudo {
+    transform-origin: top right;
+    animation: dropdown-fechar 0.16s ease-in forwards;
+}
+
+.perfil-dropdown[open] .dropdown-conteudo > * {
+    animation: dropdown-item 0.32s ease both;
+}
+
+.perfil-dropdown[open] .dropdown-conteudo > :nth-child(1) { animation-delay: 0.04s; }
+.perfil-dropdown[open] .dropdown-conteudo > :nth-child(2) { animation-delay: 0.08s; }
+.perfil-dropdown[open] .dropdown-conteudo > :nth-child(3) { animation-delay: 0.12s; }
+.perfil-dropdown[open] .dropdown-conteudo > :nth-child(4) { animation-delay: 0.16s; }
+
+.dropdown-entrar,
+.dropdown-cadastrar {
+    transition: background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+}
+
+.dropdown-entrar:hover,
+.dropdown-cadastrar:hover {
+    transform: translateY(-2px);
+}
+
+@keyframes dropdown-abrir {
+    from { opacity: 0; transform: translateY(-10px) scale(0.94); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes dropdown-fechar {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(-8px) scale(0.95); }
+}
+
+@keyframes dropdown-item {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Cogumelos decorativos: pulinhos com "amassadinha" ao pousar */
+
+.cogumelo-decorativo {
+    transform-origin: 50% 100%;
+    animation: cogumelo-pulo 2.8s ease-in-out infinite;
+}
+
+.cogumelo-2 {
+    animation-duration: 3.2s;
+    animation-delay: -1s;
+}
+
+.cogumelo-3 {
+    animation-duration: 3s;
+    animation-delay: -1.8s;
+}
+
+@keyframes cogumelo-pulo {
+    0%, 52%, 100% { transform: translateY(0) scale(1, 1); }
+    14%           { transform: translateY(-9px) scale(0.95, 1.06); }
+    28%           { transform: translateY(0) scale(1.08, 0.9); }
+    38%           { transform: translateY(-3px) scale(1, 1); }
+}
+
+
+/* =================================
+   REVELAR AO ROLAR
+   (classes aplicadas por JS, só nas seções 02 e 03)
+================================= */
+
+.rv {
+    opacity: 0;
+}
+
+.rv.revelado {
+    opacity: 1;
+    animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(.22, 1, .36, 1);
+    animation-fill-mode: backwards;
+    animation-delay: var(--rv-atraso, 0s);
+}
+
+.rv-subir.revelado {
+    animation-name: rv-subir;
+}
+
+.rv-pop.revelado {
+    animation-name: rv-pop;
+    animation-duration: 0.65s;
+    animation-timing-function: ease-out;
+}
+
+@keyframes rv-subir {
+    from { opacity: 0; transform: translateY(36px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes rv-pop {
+    0%   { opacity: 0; transform: translateY(30px) scale(0.6); }
+    60%  { opacity: 1; transform: translateY(-8px) scale(1.05); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+/* =================================
+   ELEMENTOS FLUTUANTES + PARALLAX
+================================= */
+
+.fx-flutuantes {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.fx-item {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--t, 52px);
+
+    transform: translate3d(0, var(--py, 0px), 0);
+    will-change: transform;
+}
+
+.fx-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    opacity: 0.6;
+    filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.25));
+
+    animation: fx-flutuar var(--dur, 5s) ease-in-out var(--atraso, 0s) infinite;
+}
+
+@keyframes fx-flutuar {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50%      { transform: translateY(-14px) rotate(5deg); }
+}
+
+
+/* =================================
+   SEÇÃO 02 — GALERIA DE PERSONAGENS
+================================= */
+
+/* Personagem em destaque: flutuação suave + halo */
+
+.personagem-arte {
+    position: relative;
+    animation: personagem-flutua 4.5s ease-in-out infinite;
+}
+
+.personagem-arte::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 62%;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 213, 0, 0.30) 0%,
+        rgba(255, 213, 0, 0) 68%
+    );
+
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.personagem-arte img {
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+@keyframes personagem-flutua {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+}
+
+/* Pulinho ao clicar no personagem */
+
+.personagem-arte img.pulando {
+    animation: personagem-pulo 0.6s cubic-bezier(.3, 1.4, .5, 1);
+}
+
+@keyframes personagem-pulo {
+    0%   { transform: translateY(0) scale(1, 1); }
+    18%  { transform: translateY(0) scale(1.08, 0.9); }
+    50%  { transform: translateY(-34px) scale(0.96, 1.06); }
+    80%  { transform: translateY(0) scale(1.06, 0.93); }
+    100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* Troca de personagem (classes aplicadas por JS) */
+
+.personagem-arte img.troca-saida {
+    animation: personagem-saida 0.18s ease-in forwards;
+}
+
+.personagem-arte img.troca-entrada {
+    animation: personagem-entrada 0.55s cubic-bezier(.34, 1.56, .64, 1) both;
+}
+
+@keyframes personagem-saida {
+    to {
+        opacity: 0;
+        transform: translateX(calc(var(--dir, 1) * -30px)) scale(0.88) rotate(-4deg);
+    }
+}
+
+@keyframes personagem-entrada {
+    from {
+        opacity: 0;
+        transform: translateX(calc(var(--dir, 1) * 40px)) scale(0.8) rotate(5deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1) rotate(0deg);
+    }
+}
+
+.personagem-arte.troca-brilho::before {
+    animation: halo-pulso 0.7s ease-out;
+}
+
+@keyframes halo-pulso {
+    0%   { opacity: 0.2; scale: 0.6; }
+    45%  { opacity: 1;   scale: 1.25; }
+    100% { opacity: 1;   scale: 1; }
+}
+
+/* Painel de informações */
+
+.personagem-info.troca-saida > * {
+    animation: info-sai 0.15s ease-in forwards;
+}
+
+.personagem-info.troca-entrada > * {
+    animation: info-entra 0.45s ease-out both;
+}
+
+.personagem-info.troca-entrada > :nth-child(2) { animation-delay: 0.06s; }
+.personagem-info.troca-entrada > :nth-child(3) { animation-delay: 0.12s; }
+
+@keyframes info-sai {
+    to { opacity: 0; transform: translateY(-6px); }
+}
+
+@keyframes info-entra {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Botões do seletor */
+
+.personagem-btn {
+    position: relative;
+}
+
+.personagem-btn img {
+    transition: transform 0.25s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.personagem-btn:hover img {
+    transform: scale(1.12) rotate(-4deg);
+}
+
+.personagem-btn:active {
+    transform: translateY(-1px) scale(0.95);
+}
+
+.personagem-btn.ativo,
+.personagem-btn.ativo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 0 4px rgba(255, 213, 0, 0.25),
+                0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.personagem-btn.ativo img {
+    transform: scale(1.15);
+}
+
+.personagem-btn img.pulinho {
+    animation: btn-pulinho 0.5s cubic-bezier(.3, 1.4, .5, 1);
+}
+
+@keyframes btn-pulinho {
+    0%   { transform: translateY(0) scale(1.15, 1.15); }
+    30%  { transform: translateY(-12px) scale(1, 1.15); }
+    60%  { transform: translateY(0) scale(1.2, 1.05); }
+    100% { transform: translateY(0) scale(1.15, 1.15); }
+}
+
+
+/* =================================
+   SEÇÃO 03 — BLOCOS MISTERIOSOS
+================================= */
+
+.brilho-rgb {
+    transition: filter 0.3s ease;
+}
+
+.bloco-card:hover .brilho-rgb {
+    filter: blur(22px) saturate(1.4);
+}
+
+.botao-descobrir:active {
+    transform: scale(0.94);
+}
+
+/* 1) Impacto: o bloco é "acertado" por baixo */
+
+.bloco-card.bloco-impacto .imagem-descoberta {
+    animation: bloco-impacto 0.38s cubic-bezier(.3, 1.6, .5, 1);
+}
+
+.bloco-card.bloco-impacto .bloco-arte::after {
+    animation: bloco-flash 0.5s ease-out;
+}
+
+@keyframes bloco-impacto {
+    0%   { transform: translateY(0) scale(1, 1); }
+    30%  { transform: translateY(-22px) scale(0.92, 1.12); }
+    55%  { transform: translateY(2px) scale(1.12, 0.88); }
+    100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* Clarão no momento do impacto */
+
+.bloco-arte::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 170px;
+    height: 170px;
+    margin: -85px 0 0 -85px;
+
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 213, 0, 0.45) 40%,
+        rgba(255, 213, 0, 0) 70%
+    );
+
+    opacity: 0;
+    transform: scale(0.3);
+    pointer-events: none;
+    z-index: 2;
+}
+
+@keyframes bloco-flash {
+    0%   { opacity: 0;   transform: scale(0.3); }
+    35%  { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0;   transform: scale(1.5); }
+}
+
+/* 3) Retorno: o bloco "cai" de volta no lugar */
+
+.bloco-card.bloco-retorno .imagem-descoberta {
+    animation: bloco-retorno 0.5s cubic-bezier(.34, 1.4, .64, 1);
+}
+
+@keyframes bloco-retorno {
+    0%   { opacity: 0; transform: translateY(-50px) scale(0.6); }
+    60%  { opacity: 1; transform: translateY(6px) scale(1.06, 0.94); }
+    100% { opacity: 1; transform: translateY(0) scale(1, 1); }
+}
+
+/* Textos e botão entram suavemente a cada troca */
+
+.bloco-card.bloco-trocou h3,
+.bloco-card.bloco-trocou .bloco-descricao {
+    animation: texto-entra 0.45s ease-out both;
+}
+
+.bloco-card.bloco-trocou .bloco-descricao {
+    animation-delay: 0.07s;
+}
+
+.bloco-card.bloco-trocou .botao-descobrir {
+    animation: botao-pop 0.45s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes texto-entra {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes botao-pop {
+    0%   { transform: scale(0.85); }
+    60%  { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+
+/* =================================
+   ENCERRAMENTO — BOTÃO DA LOJA
+================================= */
+
+.botao-loja {
+    position: relative;
+}
+
+.botao-loja::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+
+    border: 3px solid #ffd500;
+    border-radius: 14px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    animation: botao-anel 2.6s ease-out infinite;
+}
+
+.botao-loja:active {
+    transform: scale(0.96);
+}
+
+@keyframes botao-anel {
+    0%        { opacity: 0.8; transform: scale(0.96); }
+    70%, 100% { opacity: 0;   transform: scale(1.18); }
+}
+
+
+/* =================================
+   RESPONSIVIDADE DOS EFEITOS
+================================= */
+
+@media (max-width: 768px) {
+
+    .fx-item:nth-child(n + 3) {
+        display: none;
+    }
+
+    .fx-item {
+        width: calc(var(--t, 52px) * 0.75);
+    }
+
+    .personagem-btn.ativo,
+    .personagem-btn.ativo:hover {
+        transform: translateY(-4px);
+    }
+}
+
+
+/* =================================
+   PREFERÊNCIA POR MENOS MOVIMENTO
+================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .rv,
+    .rv.revelado {
+        opacity: 1;
+        animation: none;
+    }
+
+    .cogumelo-decorativo,
+    .personagem-arte,
+    .fx-item img,
+    .botao-loja::before,
+    .brilho-rgb,
+    .bloco-card .imagem-descoberta {
+        animation: none !important;
+    }
+
+    .fx-item {
+        transform: none;
+    }
+
+    .perfil-dropdown[open] .dropdown-conteudo,
+    .perfil-dropdown[open] .dropdown-conteudo > * {
+        animation: none;
     }
 }
