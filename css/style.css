@@ -455,60 +455,283 @@ section {
 }
 
 
-/* PRODUTOS */
+/* =================================
+   CARDS DOS BLOCOS MISTERIOSOS
+================================= */
 
-.produtos-container {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-
+.blocos-container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 25px;
-    flex-wrap: wrap;
+    margin: 55px 0 70px;
 }
 
-.produto-card {
-    flex: 1;
-    min-width: 220px;
-    max-width: 300px;
+.bloco-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
 
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    background-color: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
+    min-height: 390px;
+    padding: 25px 18px;
 
-    transition: 0.2s;
+    background: rgba(5, 35, 90, 0.75);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 18px;
+
+    transition: transform 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
 }
 
-.produto-card:hover {
-    transform: translateY(-6px);
-    background-color: rgba(255,255,255,0.2);
+.bloco-card:hover {
+    transform: translateY(-8px);
+    border-color: #ffd500;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
 }
 
-.produto-imagem {
-    width: 100%;
-    height: 180px;
+/* ÁREA DA IMAGEM */
+
+.bloco-arte {
+    position: relative;
 
     display: flex;
     align-items: center;
     justify-content: center;
+
+    width: 100%;
+    height: 210px;
+    margin-bottom: 15px;
 }
 
-.produto-imagem img {
-    max-width: 100%;
-    max-height: 100%;
+/* BRILHO RGB */
+
+.brilho-rgb {
+    position: absolute;
+
+    width: 145px;
+    height: 145px;
+
+    border-radius: 50%;
+
+    background: conic-gradient(
+        #ff004c,
+        #ffae00,
+        #00ff88,
+        #00c8ff,
+        #9d00ff,
+        #ff004c
+    );
+
+    filter: blur(28px);
+    opacity: 0.65;
+
+    animation: girar-brilho 5s linear infinite,
+               pulsar-brilho 2s ease-in-out infinite alternate;
+
+    z-index: -1;
+}
+
+@keyframes girar-brilho {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulsar-brilho {
+    from {
+        opacity: 0.35;
+        scale: 0.85;
+    }
+
+    to {
+        opacity: 0.85;
+        scale: 1.15;
+    }
+}
+
+/* IMAGEM FLUTUANTE */
+
+.imagem-descoberta {
+    position: relative;
+    z-index: 1;
+
+    width: 150px;
+    height: 150px;
+
     object-fit: contain;
+
+    animation: flutuar-bloco 2.5s ease-in-out infinite;
 }
 
-.produto-card h3 {
-    font-size: 22px;
-    margin: 15px 0 10px;
+@keyframes flutuar-bloco {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-13px);
+    }
 }
 
-.produto-card p {
+/* CONTEÚDO */
+
+.bloco-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    flex: 1;
+}
+
+.bloco-conteudo h3 {
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.bloco-descricao {
+    min-height: 52px;
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.5;
+    margin-bottom: 20px;
 }
+
+/* BOTÃO */
+
+.botao-descobrir {
+    margin-top: auto;
+    padding: 13px 17px;
+
+    background: #ffd500;
+    color: #104eae;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: transform 0.2s ease,
+                background-color 0.2s ease;
+}
+
+.botao-descobrir:hover {
+    background-color: white;
+    transform: scale(1.06);
+}
+
+/* DESCOBERTA */
+
+.bloco-card.descoberto {
+    border-color: #ffd500;
+    box-shadow: 0 0 25px rgba(255, 213, 0, 0.2);
+}
+
+.bloco-card.descoberto .brilho-rgb {
+    opacity: 0.9;
+}
+
+.bloco-card.descoberto .imagem-descoberta {
+    animation: aparecer-descoberta 0.5s ease forwards;
+}
+
+@keyframes aparecer-descoberta {
+    from {
+        opacity: 0;
+        transform: scale(0.4) rotate(-20deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ENCERRAMENTO */
+
+.encerramento-museu {
+    width: 100%;
+    max-width: 850px;
+
+    margin: 0 auto 35px;
+    padding: 35px 30px;
+
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.encerramento-museu h3 {
+    font-size: 35px;
+    margin-bottom: 15px;
+}
+
+.encerramento-museu p {
+    max-width: 650px;
+    font-size: 19px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+/* BOTÃO DA LOJA */
+
+.botao-loja {
+    display: inline-block;
+    padding: 16px 32px;
+
+    background: #ffd500;
+    color: #104eae;
+
+    border: 3px solid white;
+    border-radius: 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+
+    transition: transform 0.3s ease,
+                background-color 0.3s ease;
+}
+
+.botao-loja:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+/* RESPONSIVIDADE DOS CARDS */
+
+@media (max-width: 1000px) {
+    .blocos-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .blocos-container {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .bloco-card {
+        min-height: 350px;
+    }
+
+    .encerramento-museu h3 {
+        font-size: 27px;
+    }
+
+    .encerramento-museu p {
+        font-size: 16px;
+    }
+}
+
 
 
 /* =================================

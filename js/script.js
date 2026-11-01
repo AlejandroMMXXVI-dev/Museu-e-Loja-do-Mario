@@ -231,12 +231,103 @@ function configurarSeletorPersonagens() {
 
 }
 
-// Executar o carregamento
+
+// =================================
+// DESCOBERTAS DOS BLOCOS MISTERIOSOS
+// =================================
+
+const descobertas = {
+    cogumelo: {
+        imagem: "images/super-cogumelo.png",
+        nome: "Super Cogumelo",
+        descricao: "Um dos itens mais clássicos da franquia! Ao encontrá-lo, Mario cresce e ganha uma nova chance na aventura."
+    },
+
+    flor: {
+        imagem: "images/flor-de-fogo.png",
+        nome: "Flor de Fogo",
+        descricao: "Com esse poder, Mario consegue lançar bolas de fogo e enfrentar seus inimigos de uma maneira explosiva!"
+    },
+
+    estrela: {
+        imagem: "images/super-estrela.png",
+        nome: "Super Estrela",
+        descricao: "Um dos itens mais especiais do Reino! Ela concede invencibilidade temporária ao personagem."
+    },
+
+    moeda: {
+        imagem: "images/moeda.png",
+        nome: "Moeda",
+        descricao: "Presente em praticamente toda a franquia, as moedas recompensam a exploração e ajudam Mario em sua jornada."
+    }
+};
+
+
+// =================================
+// CONFIGURAR BLOCOS MISTERIOSOS
+// =================================
+
+function configurarBlocosMisteriosos() {
+
+    const cards = document.querySelectorAll(".bloco-card");
+
+    cards.forEach((card) => {
+
+        const botao = card.querySelector(".botao-descobrir");
+        const imagem = card.querySelector(".imagem-descoberta");
+        const titulo = card.querySelector("h3");
+        const descricao = card.querySelector(".bloco-descricao");
+
+        const item = card.dataset.item;
+
+        // Guarda os textos originais uma única vez
+        titulo.dataset.original = titulo.textContent;
+        descricao.dataset.original = descricao.textContent;
+
+        botao.addEventListener("click", () => {
+
+            // Voltar ao bloco original
+            if (card.classList.contains("descoberto")) {
+
+                imagem.src = "images/caixa-interrogacao.png";
+                imagem.alt = "Bloco de interrogação";
+
+                titulo.textContent = titulo.dataset.original;
+                descricao.textContent = descricao.dataset.original;
+
+                botao.textContent = "CLIQUE PARA DESCOBRIR";
+
+                card.classList.remove("descoberto");
+
+                return;
+            }
+
+            const descoberta = descobertas[item];
+
+            if (!descoberta) return;
+
+            // Mostrar descoberta
+            imagem.src = descoberta.imagem;
+            imagem.alt = descoberta.nome;
+
+            titulo.textContent = descoberta.nome;
+            descricao.textContent = descoberta.descricao;
+
+            botao.textContent = "VOLTAR AO BLOCO";
+
+            card.classList.add("descoberto");
+
+        });
+
+    });
+
+}
 
 carregarSecoes()
     .then(() => {
         configurarSeletorPersonagens();
         configurarWarpScroll();
+        configurarBlocosMisteriosos();
     })
     .catch((erro) => {
         console.error("Erro ao montar o museu:", erro);
