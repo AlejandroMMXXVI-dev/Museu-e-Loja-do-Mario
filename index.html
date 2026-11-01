@@ -5,17 +5,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Museu do Mario</title>
+    <title>Mario - Museu e Loja</title>
 
     <link rel="stylesheet" href="CSS/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-   <!-- WARP PIPE SCROLLBAR -->
+   
+    <nav class="navbar">
+
+
+        <a href="index.html" class="navbar-logo">
+            <span class="logo-mario">MARIO</span>
+            <span class="logo-subtitulo">MUSEU & LOJA</span>
+        </a>
+
+
+        <div class="navbar-links">
+
+            <a href="index.html#historia" class="nav-link">
+                História
+            </a>
+
+            <a href="index.html#nostalgia" class="nav-link">
+                Personagens
+            </a>
+
+            <a href="loja.html" class="nav-link">
+                Loja
+            </a>
+
+        </div>
+
+
+        <div class="navbar-perfil">
+
+            <details class="perfil-dropdown">
+
+                <summary class="perfil-botao">
+                    <span class="perfil-icone">♟</span>
+                    Perfil
+                    <span class="seta-dropdown">⌄</span>
+                </summary>
+
+                <div class="dropdown-conteudo">
+
+                    <p class="dropdown-titulo">Bem-vindo!</p>
+
+                    <p class="dropdown-descricao">
+                        Entre ou crie sua conta para continuar.
+                    </p>
+
+                    <a href="perfil.html#entrar" class="dropdown-entrar">
+                        Entrar
+                    </a>
+
+                    <a href="perfil.html#cadastro" class="dropdown-cadastrar">
+                        Criar conta
+                    </a>
+
+                </div>
+
+            </details>
+
+        </div>
+
+
+        <div class="navbar-cogumelos" aria-hidden="true">
+            <span class="cogumelo-decorativo cogumelo-1"></span>
+            <span class="cogumelo-decorativo cogumelo-2"></span>
+            <span class="cogumelo-decorativo cogumelo-3"></span>
+        </div>
+
+    </nav>
+
+
+  
     <div class="warp-scroll">
 
         <img
@@ -26,8 +92,6 @@
 
     </div>
 
-
-    <!-- CONTEÚDO DO MUSEU -->
     <main>
 
         <div id="secao01"></div>
@@ -38,8 +102,6 @@
 
     </main>
 
-
-    <!-- JAVASCRIPT -->
     <script src="js/script.js"></script>
 
 </body>
