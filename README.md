@@ -10,7 +10,7 @@ Site temático (front-end puro, sem banco de dados) que reúne um pequeno **muse
 | **História** (`secao01`) | Abertura "Nintendo apresenta: História do Mario" |
 | **Personagens** (`secao02`) | Galeria interativa: seletor de personagens (Mario, Luigi, Peach, Yoshi, Bowser, etc.) com painel de informações e animações |
 | **Loja** (`secao03`) | Blocos misteriosos que revelam itens ao clicar (cogumelo, flor de fogo, estrela, moeda) e botão para a loja |
-| `perfil.html` | Login e cadastro lado a lado (apenas visual, sem envio nem armazenamento de dados) |
+| `login.html` | Login e cadastro lado a lado (apenas visual, sem envio nem armazenamento de dados) |
 
 ## Destaques
 
@@ -24,15 +24,15 @@ Site temático (front-end puro, sem banco de dados) que reúne um pequeno **muse
 
 ```
 ├── index.html
-├── perfil.html          # login + cadastro (visual)
+├── login.html           # login + cadastro (visual)
 ├── html_museu/          # seções carregadas na home
 ├── css/
 │   ├── style.css        # estilos gerais, navbar e seções
-│   └── perfil.css       # estilos da página de perfil
+│   └── login.css        # estilos da página de login/cadastro
 ├── js/
 │   ├── navbar.js        # navbar, efeitos (MarioFX) e transições
 │   ├── script.js        # seções, personagens e blocos misteriosos
-│   └── perfil.js        # validação visual dos formulários
+│   └── login.js         # validação visual dos formulários
 ├── images/              # personagens e itens
 └── assets/              # fonte Titan One e ícones
 ```
