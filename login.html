@@ -8,10 +8,10 @@
     <title>Mario - Entrar e Criar conta</title>
 
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 
-<body class="pagina-perfil">
+<body class="pagina-login">
 
     <nav class="navbar">
 
@@ -31,7 +31,7 @@
 
                 <summary class="perfil-botao">
                     <img src="assets/icons/perfil.png" alt="" class="perfil-icone">
-                    Perfil
+                    Login ou Cadastro
                     <span class="seta-dropdown">⌄</span>
                 </summary>
 
@@ -40,8 +40,8 @@
                     <p class="dropdown-descricao">
                         Entre ou crie sua conta para continuar.
                     </p>
-                    <a href="perfil.html#entrar" class="dropdown-entrar">Entrar</a>
-                    <a href="perfil.html#cadastro" class="dropdown-cadastrar">Criar conta</a>
+                    <a href="login.html#entrar" class="dropdown-entrar">Entrar</a>
+                    <a href="login.html#cadastro" class="dropdown-cadastrar">Criar conta</a>
                 </div>
 
             </details>
@@ -56,10 +56,10 @@
     </nav>
 
 
-    <main class="perfil-pagina">
+    <main class="login-pagina">
 
         <!-- Decoração de fundo -->
-        <div class="perfil-fundo" aria-hidden="true">
+        <div class="login-fundo" aria-hidden="true">
             <img src="images/moeda.png" alt="" style="--x: 6%;  --y: 14%; --t: 56px; --dur: 5s;   --atraso: 0s;">
             <img src="images/super-estrela.png" alt="" style="--x: 90%; --y: 10%; --t: 62px; --dur: 6s;   --atraso: -1s;">
             <img src="images/super-cogumelo.png" alt="" style="--x: 3%;  --y: 72%; --t: 66px; --dur: 5.5s; --atraso: -2s;">
@@ -68,15 +68,15 @@
             <img src="images/moeda.png" alt="" style="--x: 50%; --y: 90%; --t: 44px; --dur: 4.5s; --atraso: -2.5s;">
         </div>
 
-        <div class="perfil-container">
+        <div class="login-container">
 
-            <header class="perfil-cabecalho">
+            <header class="login-cabecalho">
                 <p>PLAYER SELECT</p>
                 <h1>Pronto para jogar?</h1>
                 <p>Entre na sua conta ou crie uma nova para acessar o museu e a loja.</p>
             </header>
 
-            <div class="perfil-cards">
+            <div class="login-cards">
 
                 <!-- ============ ENTRAR ============ -->
                 <section class="auth-card auth-entrar" id="entrar" aria-labelledby="titulo-entrar">
@@ -212,7 +212,7 @@
     </main>
 
     <script src="js/navbar.js"></script>
-    <script src="js/perfil.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
 
