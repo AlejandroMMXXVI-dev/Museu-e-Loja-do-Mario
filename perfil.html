@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mario - Entrar e Criar conta</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/perfil.css">
+</head>
+
+<body class="pagina-perfil">
+
+    <nav class="navbar">
+
+        <a href="index.html" class="navbar-logo">
+            <span class="logo-mario">MARIO</span>
+            <span class="logo-subtitulo">MUSEU & LOJA</span>
+        </a>
+
+        <div class="navbar-links">
+            <a href="index.html#historia" class="nav-link">História</a>
+            <a href="index.html#nostalgia" class="nav-link">Personagens</a>
+            <a href="loja.html" class="nav-link">Loja</a>
+        </div>
+
+        <div class="navbar-perfil">
+            <details class="perfil-dropdown">
+
+                <summary class="perfil-botao">
+                    <img src="assets/icons/perfil.png" alt="" class="perfil-icone">
+                    Perfil
+                    <span class="seta-dropdown">⌄</span>
+                </summary>
+
+                <div class="dropdown-conteudo">
+                    <p class="dropdown-titulo">Bem-vindo!</p>
+                    <p class="dropdown-descricao">
+                        Entre ou crie sua conta para continuar.
+                    </p>
+                    <a href="perfil.html#entrar" class="dropdown-entrar">Entrar</a>
+                    <a href="perfil.html#cadastro" class="dropdown-cadastrar">Criar conta</a>
+                </div>
+
+            </details>
+        </div>
+
+        <div class="navbar-cogumelos" aria-hidden="true">
+            <span class="cogumelo-decorativo cogumelo-1"></span>
+            <span class="cogumelo-decorativo cogumelo-2"></span>
+            <span class="cogumelo-decorativo cogumelo-3"></span>
+        </div>
+
+    </nav>
+
+
+    <main class="perfil-pagina">
+
+        <!-- Decoração de fundo -->
+        <div class="perfil-fundo" aria-hidden="true">
+            <img src="images/moeda.png" alt="" style="--x: 6%;  --y: 14%; --t: 56px; --dur: 5s;   --atraso: 0s;">
+            <img src="images/super-estrela.png" alt="" style="--x: 90%; --y: 10%; --t: 62px; --dur: 6s;   --atraso: -1s;">
+            <img src="images/super-cogumelo.png" alt="" style="--x: 3%;  --y: 72%; --t: 66px; --dur: 5.5s; --atraso: -2s;">
+            <img src="images/flor-de-fogo.png" alt="" style="--x: 93%; --y: 68%; --t: 60px; --dur: 4.8s; --atraso: -3s;">
+            <img src="images/caixa-interrogacao.png" alt="" style="--x: 14%; --y: 4%;  --t: 48px; --dur: 5.2s; --atraso: -1.5s;">
+            <img src="images/moeda.png" alt="" style="--x: 50%; --y: 90%; --t: 44px; --dur: 4.5s; --atraso: -2.5s;">
+        </div>
+
+        <div class="perfil-container">
+
+            <header class="perfil-cabecalho">
+                <p>PLAYER SELECT</p>
+                <h1>Pronto para jogar?</h1>
+                <p>Entre na sua conta ou crie uma nova para acessar o museu e a loja.</p>
+            </header>
+
+            <div class="perfil-cards">
+
+                <!-- ============ ENTRAR ============ -->
+                <section class="auth-card auth-entrar" id="entrar" aria-labelledby="titulo-entrar">
+
+                    <img src="images/mario.png" alt="" class="auth-personagem">
+
+                    <p class="auth-etiqueta">JOGADOR 1</p>
+                    <h2 id="titulo-entrar">Entrar</h2>
+                    <p class="auth-descricao">Bom te ver de volta! Continue de onde parou.</p>
+
+                    <form class="auth-form" id="form-entrar" novalidate>
+
+                        <div class="campo">
+                            <label for="entrar-email">E-mail</label>
+                            <input type="email" id="entrar-email" name="email"
+                                   placeholder="mario@reinocogumelo.com" autocomplete="email" required>
+                            <span class="campo-erro" aria-live="polite"></span>
+                        </div>
+
+                        <div class="campo">
+                            <label for="entrar-senha">Senha</label>
+                            <div class="campo-senha">
+                                <input type="password" id="entrar-senha" name="senha"
+                                       placeholder="Sua senha" autocomplete="current-password" required>
+                                <button type="button" class="ver-senha" aria-label="Mostrar senha" aria-pressed="false">👁</button>
+                            </div>
+                            <span class="campo-erro" aria-live="polite"></span>
+                        </div>
+
+                        <div class="auth-linha">
+                            <label class="check">
+                                <input type="checkbox" name="lembrar">
+                                <span class="check-caixa"></span>
+                                Lembrar de mim
+                            </label>
+                            <a href="#" class="auth-link" data-sem-transicao>Esqueci a senha</a>
+                        </div>
+
+                        <div class="auth-dica">
+                            <img src="images/super-cogumelo.png" alt="">
+                            <p>Dica: entre para guardar seus personagens e itens favoritos da loja.</p>
+                        </div>
+
+                        <button type="submit" class="auth-botao auth-botao-amarelo">Entrar</button>
+                    </form>
+
+                    <p class="auth-troca">
+                        Ainda não tem conta?
+                        <a href="#cadastro" class="auth-link" data-ir="cadastro">Criar conta</a>
+                    </p>
+
+                </section>
+
+
+                <!-- Divisor central -->
+                <div class="auth-divisor" aria-hidden="true">
+                    <span class="auth-divisor-linha"></span>
+                    <span class="auth-divisor-moeda">OU</span>
+                    <span class="auth-divisor-linha"></span>
+                </div>
+
+
+                <!-- ============ CADASTRO ============ -->
+                <section class="auth-card auth-cadastro" id="cadastro" aria-labelledby="titulo-cadastro">
+
+                    <img src="images/luigi.png" alt="" class="auth-personagem">
+
+                    <p class="auth-etiqueta">JOGADOR 2</p>
+                    <h2 id="titulo-cadastro">Criar conta</h2>
+                    <p class="auth-descricao">Junte-se à aventura e ganhe acesso ao museu e à loja.</p>
+
+                    <form class="auth-form" id="form-cadastro" novalidate>
+
+                        <div class="campo">
+                            <label for="cad-nome">Nome</label>
+                            <input type="text" id="cad-nome" name="nome"
+                                   placeholder="Seu nome de jogador" autocomplete="name" required>
+                            <span class="campo-erro" aria-live="polite"></span>
+                        </div>
+
+                        <div class="campo">
+                            <label for="cad-email">E-mail</label>
+                            <input type="email" id="cad-email" name="email"
+                                   placeholder="luigi@reinocogumelo.com" autocomplete="email" required>
+                            <span class="campo-erro" aria-live="polite"></span>
+                        </div>
+
+                        <div class="campo-duplo">
+                            <div class="campo">
+                                <label for="cad-senha">Senha</label>
+                                <div class="campo-senha">
+                                    <input type="password" id="cad-senha" name="senha"
+                                           placeholder="Mín. 6 caracteres" autocomplete="new-password" required>
+                                    <button type="button" class="ver-senha" aria-label="Mostrar senha" aria-pressed="false">👁</button>
+                                </div>
+                                <span class="campo-erro" aria-live="polite"></span>
+                            </div>
+
+                            <div class="campo">
+                                <label for="cad-confirmar">Confirmar</label>
+                                <div class="campo-senha">
+                                    <input type="password" id="cad-confirmar" name="confirmar"
+                                           placeholder="Repita a senha" autocomplete="new-password" required>
+                                    <button type="button" class="ver-senha" aria-label="Mostrar senha" aria-pressed="false">👁</button>
+                                </div>
+                                <span class="campo-erro" aria-live="polite"></span>
+                            </div>
+                        </div>
+
+                        <label class="check">
+                            <input type="checkbox" name="termos" required>
+                            <span class="check-caixa"></span>
+                            Aceito os termos de uso do museu
+                        </label>
+                        <span class="campo-erro campo-erro-termos" aria-live="polite"></span>
+
+                        <button type="submit" class="auth-botao auth-botao-verde">Criar conta</button>
+                    </form>
+
+                    <p class="auth-troca">
+                        Já tem uma conta?
+                        <a href="#entrar" class="auth-link" data-ir="entrar">Entrar</a>
+                    </p>
+
+                </section>
+
+            </div>
+        </div>
+
+        <!-- Aviso visual (simulação) -->
+        <div class="auth-toast" id="auth-toast" role="status" aria-live="polite"></div>
+
+    </main>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/perfil.js"></script>
+
+</body>
+
+</html>
