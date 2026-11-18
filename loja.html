@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#104eae">
+    <meta name="description" content="Explore a vitrine demonstrativa da loja do Museu do Mario.">
+
+    <title>Loja - Museu do Mario</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loja.css">
+</head>
+
+<body class="pagina-loja">
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo">
+            <span class="logo-mario">MARIO</span>
+            <span class="logo-subtitulo">MUSEU &amp; LOJA</span>
+        </a>
+
+        <div class="navbar-links">
+            <a href="index.html#historia" class="nav-link">História</a>
+            <a href="index.html#nostalgia" class="nav-link">Personagens</a>
+            <a href="loja.html" class="nav-link" aria-current="page">Loja</a>
+        </div>
+
+        <div class="navbar-perfil">
+            <details class="perfil-dropdown">
+                <summary class="perfil-botao">
+                    <img src="assets/icons/perfil.png" alt="" class="perfil-icone">
+                    Login ou Cadastro
+                    <span class="seta-dropdown">⌄</span>
+                </summary>
+                <div class="dropdown-conteudo">
+                    <p class="dropdown-titulo">Bem-vindo!</p>
+                    <p class="dropdown-descricao">Entre ou crie sua conta para continuar.</p>
+                    <a href="login.html#entrar" class="dropdown-entrar">Entrar</a>
+                    <a href="login.html#cadastro" class="dropdown-cadastrar">Criar conta</a>
+                </div>
+            </details>
+        </div>
+
+        <div class="navbar-cogumelos" aria-hidden="true">
+            <span class="cogumelo-decorativo cogumelo-1"></span>
+            <span class="cogumelo-decorativo cogumelo-2"></span>
+            <span class="cogumelo-decorativo cogumelo-3"></span>
+        </div>
+    </nav>
+
+    <main>
+        <section class="loja-hero" aria-labelledby="loja-titulo">
+            <div class="loja-hero-conteudo">
+                <p class="loja-sobretitulo">LOJA DO REINO COGUMELO</p>
+                <h1 id="loja-titulo">Sua próxima aventura começa aqui!</h1>
+                <p class="loja-hero-descricao">
+                    Encontre seus personagens e itens favoritos em uma vitrine cheia de nostalgia.
+                </p>
+                <a class="loja-cta" href="#catalogo">Explorar produtos <span aria-hidden="true">↓</span></a>
+                <p class="loja-aviso">Vitrine demonstrativa · preços e produtos ilustrativos</p>
+            </div>
+            <div class="loja-hero-arte" aria-hidden="true">
+                <span class="hero-estrela">★</span>
+                <img src="images/mario.png" alt="">
+                <span class="hero-moeda">●</span>
+            </div>
+        </section>
+
+        <section class="loja-catalogo" id="catalogo" aria-labelledby="catalogo-titulo">
+            <div class="catalogo-cabecalho">
+                <div>
+                    <p class="loja-sobretitulo">ESCOLHA SEU POWER-UP</p>
+                    <h2 id="catalogo-titulo">Vitrine de produtos</h2>
+                </div>
+                <button class="carrinho-abrir" id="abrir-carrinho" type="button" aria-haspopup="dialog">
+                    <span aria-hidden="true">🛒</span>
+                    Meu carrinho
+                    <span class="carrinho-contador" id="carrinho-contador" aria-live="polite">0</span>
+                </button>
+            </div>
+
+            <div class="catalogo-controles">
+                <div class="categoria-lista" role="group" aria-label="Filtrar por categoria">
+                    <button class="categoria-botao ativo" type="button" data-categoria="todos" aria-pressed="true">Todos</button>
+                    <button class="categoria-botao" type="button" data-categoria="personagens" aria-pressed="false">Personagens</button>
+                    <button class="categoria-botao" type="button" data-categoria="power-ups" aria-pressed="false">Power-ups</button>
+                    <button class="categoria-botao" type="button" data-categoria="acessorios" aria-pressed="false">Acessórios</button>
+                </div>
+
+                <div class="catalogo-filtros">
+                    <label class="busca-campo">
+                        <span class="visualmente-oculto">Buscar produto</span>
+                        <span aria-hidden="true">⌕</span>
+                        <input id="busca-produtos" type="search" placeholder="Buscar na loja..." autocomplete="off">
+                    </label>
+                    <label class="ordenacao-campo">
+                        <span class="visualmente-oculto">Ordenar produtos</span>
+                        <select id="ordenar-produtos">
+                            <option value="destaques">Em destaque</option>
+                            <option value="menor-preco">Menor preço</option>
+                            <option value="maior-preco">Maior preço</option>
+                            <option value="nome">Nome A–Z</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <p class="catalogo-resultado" id="catalogo-resultado" aria-live="polite"></p>
+            <div class="produtos-grade" id="produtos-grade" aria-label="Produtos disponíveis"></div>
+        </section>
+
+        <section class="loja-faixa" aria-label="Informações da vitrine">
+            <img src="images/super-cogumelo.png" alt="" aria-hidden="true">
+            <p><strong>Uma loja em construção!</strong> O catálogo e o carrinho são demonstrativos e serão conectados à API depois.</p>
+            <img src="images/super-estrela.png" alt="" aria-hidden="true">
+        </section>
+    </main>
+
+    <footer class="loja-rodape">
+        <a href="index.html" class="navbar-logo">
+            <span class="logo-mario">MARIO</span>
+            <span class="logo-subtitulo">MUSEU &amp; LOJA</span>
+        </a>
+        <p>Uma viagem nostálgica pelo Reino Cogumelo.</p>
+        <a href="index.html">Voltar ao museu</a>
+    </footer>
+
+    <div class="carrinho-fundo" id="carrinho-fundo" hidden></div>
+    <aside class="carrinho-painel" id="carrinho-painel" role="dialog" aria-modal="true"
+           aria-labelledby="carrinho-titulo" aria-hidden="true" inert>
+        <div class="carrinho-cabecalho">
+            <div>
+                <p class="loja-sobretitulo">SUA SACOLA</p>
+                <h2 id="carrinho-titulo">Meu carrinho</h2>
+            </div>
+            <button class="carrinho-fechar" id="fechar-carrinho" type="button" aria-label="Fechar carrinho">×</button>
+        </div>
+        <div class="carrinho-itens" id="carrinho-itens"></div>
+        <div class="carrinho-resumo">
+            <div class="carrinho-total">
+                <span>Subtotal ilustrativo</span>
+                <strong id="carrinho-total">R$ 0,00</strong>
+            </div>
+            <p>O carrinho é apenas uma demonstração. Nenhum pedido será enviado.</p>
+            <button class="finalizar-botao" id="finalizar-pedido" type="button" disabled>
+                Finalização em breve
+            </button>
+        </div>
+    </aside>
+    <p class="loja-toast" id="loja-toast" role="status" aria-live="polite"></p>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/loja.js"></script>
+</body>
+
+</html>
