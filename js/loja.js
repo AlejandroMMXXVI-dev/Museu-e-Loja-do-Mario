@@ -3,103 +3,113 @@
 
     const produtos = [
         {
-            id: "mario",
-            nome: "Mario, o herói",
-            categoria: "personagens",
-            categoriaLabel: "Personagens",
-            descricao: "O encanador mais famoso do Reino Cogumelo.",
-            preco: 89.9,
-            imagem: "images/mario.png",
+            id: "odyssey",
+            nome: "Super Mario Odyssey",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "Explore reinos incríveis ao lado de Cappy.",
+            preco: 299.9,
+            imagem: "images/super_mario_Odyssey.avif",
             etiqueta: "Mais vendido"
         },
         {
-            id: "luigi",
-            nome: "Luigi, o parceiro",
-            categoria: "personagens",
-            categoriaLabel: "Personagens",
-            descricao: "Pronto para encarar qualquer fantasma.",
-            preco: 84.9,
-            imagem: "images/luigi.png",
+            id: "wonder",
+            nome: "Super Mario Bros. Wonder",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "O Reino das Flores nunca foi tão surpreendente.",
+            preco: 279.9,
+            imagem: "images/super_mario_bros_wonder.avif",
+            etiqueta: "Novidade"
+        },
+        {
+            id: "kart",
+            nome: "Mario Kart 8 Deluxe",
+            categoria: "corrida",
+            categoriaLabel: "Corrida",
+            descricao: "Acelere com todos os seus personagens favoritos.",
+            preco: 289.9,
+            imagem: "images/mario_kart_8D.avif",
             etiqueta: ""
         },
         {
-            id: "peach",
-            nome: "Princesa Peach",
-            categoria: "personagens",
-            categoriaLabel: "Personagens",
-            descricao: "A governante mais querida do Reino Cogumelo.",
-            preco: 92.5,
-            imagem: "images/peach.png",
+            id: "zelda-tears",
+            nome: "The Legend of Zelda: Tears of the Kingdom",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "Construa, voe e desafie Hyrule em uma nova jornada.",
+            preco: 349.9,
+            capa: ["ZELDA", "#d7a31a", "Tears of the Kingdom"],
+            etiqueta: "Grande aventura"
+        },
+        {
+            id: "zelda-breath",
+            nome: "The Legend of Zelda: Breath of the Wild",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "Escute o chamado da aventura pelo vasto mundo de Hyrule.",
+            preco: 319.9,
+            capa: ["ZELDA", "#31552b", "Breath of the Wild"],
+            etiqueta: "Essencial"
+        },
+        {
+            id: "donkey-kong",
+            nome: "Donkey Kong Country: Tropical Freeze",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "Uma viagem cheia de ritmo pelos mundos tropicais.",
+            preco: 249.9,
+            capa: ["DONKEY KONG", "#7a3e16", "Tropical Freeze"],
             etiqueta: ""
         },
         {
-            id: "yoshi",
-            nome: "Yoshi, o dinossauro",
-            categoria: "personagens",
-            categoriaLabel: "Personagens",
-            descricao: "Um companheiro veloz para novas aventuras.",
-            preco: 79.9,
-            imagem: "images/yoshi.png",
-            etiqueta: "Favorito"
+            id: "mario-party",
+            nome: "Super Mario Party Jamboree",
+            categoria: "familia",
+            categoriaLabel: "Família",
+            descricao: "Minijogos, tabuleiros e muita diversão para todos.",
+            preco: 329.9,
+            capa: ["MARIO PARTY", "#b83a79", "Jamboree"],
+            etiqueta: "Multijogador"
         },
         {
-            id: "bowser",
-            nome: "Bowser, o rei dos Koopas",
-            categoria: "personagens",
-            categoriaLabel: "Personagens",
-            descricao: "Um colecionável para quem gosta de desafios.",
-            preco: 99.9,
-            imagem: "images/bowser.png",
+            id: "pikmin",
+            nome: "Pikmin 4",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "Comande os Pikmin e explore um planeta misterioso.",
+            preco: 259.9,
+            capa: ["PIKMIN", "#5f7f25", "Pikmin 4"],
             etiqueta: ""
         },
         {
-            id: "cogumelo",
-            nome: "Cogumelo 1-UP",
-            categoria: "power-ups",
-            categoriaLabel: "Power-ups",
-            descricao: "Mais uma vida para continuar jogando.",
-            preco: 29.9,
-            imagem: "images/super-cogumelo.png",
-            etiqueta: "Power-up"
+            id: "luigis-mansion",
+            nome: "Luigi's Mansion 3",
+            categoria: "aventura",
+            categoriaLabel: "Aventura",
+            descricao: "Luigi enfrenta fantasmas em um hotel assustador.",
+            preco: 239.9,
+            capa: ["LUIGI", "#1b5e44", "Mansion 3"],
+            etiqueta: "Família"
         },
         {
-            id: "estrela",
-            nome: "Superestrela",
-            categoria: "power-ups",
-            categoriaLabel: "Power-ups",
-            descricao: "Um brilho especial para a sua coleção.",
-            preco: 34.9,
-            imagem: "images/super-estrela.png",
-            etiqueta: "Power-up"
-        },
-        {
-            id: "flor",
-            nome: "Flor de fogo",
-            categoria: "power-ups",
-            categoriaLabel: "Power-ups",
-            descricao: "Uma lembrança flamejante da aventura.",
-            preco: 32.9,
-            imagem: "images/flor-de-fogo.png",
+            id: "animal-crossing",
+            nome: "Animal Crossing: New Horizons",
+            categoria: "familia",
+            categoriaLabel: "Família",
+            descricao: "Construa seu paraíso em uma ilha cheia de amigos.",
+            preco: 269.9,
+            capa: ["ANIMAL CROSSING", "#4e9f91", "New Horizons"],
             etiqueta: ""
         },
         {
-            id: "moeda",
-            nome: "Chaveiro de moeda",
-            categoria: "acessorios",
-            categoriaLabel: "Acessórios",
-            descricao: "Leve um pedacinho do jogo com você.",
-            preco: 19.9,
-            imagem: "images/moeda.png",
-            etiqueta: ""
-        },
-        {
-            id: "toad",
-            nome: "Toad, guardião do reino",
-            categoria: "personagens",
-            categoriaLabel: "Personagens",
-            descricao: "Sempre pronto para compartilhar uma dica.",
-            preco: 69.9,
-            imagem: "images/toad.png",
+            id: "splatoon",
+            nome: "Splatoon 3",
+            categoria: "familia",
+            categoriaLabel: "Família",
+            descricao: "Entre na tinta e lute pela maior pontuação.",
+            preco: 249.9,
+            capa: ["SPLATOON", "#7632a8", "Splatoon 3"],
             etiqueta: ""
         }
     ];
@@ -175,11 +185,19 @@
     function criarCard(produto) {
         const card = criarElemento("article", "produto-card");
         const imagemCaixa = criarElemento("div", "produto-imagem");
-        const imagem = document.createElement("img");
-        imagem.src = produto.imagem;
-        imagem.alt = produto.nome;
-        imagem.loading = "lazy";
-        imagemCaixa.appendChild(imagem);
+        if (produto.imagem) {
+            const imagem = document.createElement("img");
+            imagem.src = produto.imagem;
+            imagem.alt = produto.nome;
+            imagem.loading = "lazy";
+            imagemCaixa.appendChild(imagem);
+        } else if (produto.capa) {
+            const capa = criarElemento("div", "produto-capa");
+            capa.style.setProperty("--capa-fundo", `linear-gradient(145deg, ${produto.capa[1]}, #111a2f)`);
+            capa.appendChild(criarElemento("small", "", produto.capa[0]));
+            capa.appendChild(criarElemento("strong", "", produto.capa[2]));
+            imagemCaixa.appendChild(capa);
+        }
 
         if (produto.etiqueta) {
             imagemCaixa.appendChild(criarElemento("span", "produto-etiqueta", produto.etiqueta));
@@ -262,9 +280,17 @@
 
     function criarLinhaCarrinho(produto, quantidade) {
         const linha = criarElemento("div", "carrinho-linha");
-        const imagem = document.createElement("img");
-        imagem.src = produto.imagem;
-        imagem.alt = "";
+        let imagem;
+        if (produto.imagem) {
+            imagem = document.createElement("img");
+            imagem.src = produto.imagem;
+            imagem.alt = "";
+        } else {
+            imagem = criarElemento("div", "carrinho-capa");
+            imagem.style.setProperty("--capa-fundo", `linear-gradient(145deg, ${produto.capa[1]}, #111a2f)`);
+            imagem.textContent = produto.capa[0];
+            imagem.setAttribute("aria-hidden", "true");
+        }
 
         const detalhes = criarElemento("div", "");
         detalhes.appendChild(criarElemento("p", "carrinho-produto-nome", produto.nome));
@@ -297,6 +323,13 @@
     }
 
     function renderizarCarrinho() {
+        estado.carrinho.forEach((quantidade, id) => {
+            if (!produtos.some(produto => produto.id === id) || quantidade <= 0) {
+                estado.carrinho.delete(id);
+            }
+        });
+        atualizarLocalStorage();
+
         const quantidadeTotal = Array.from(estado.carrinho.values())
             .reduce((soma, quantidade) => soma + quantidade, 0);
         const subtotal = Array.from(estado.carrinho.entries())
