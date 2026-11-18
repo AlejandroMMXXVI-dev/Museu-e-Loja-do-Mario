@@ -735,6 +735,88 @@
     border: 0;
 }
 
+.loja-beneficios {
+    width: 100%;
+    min-height: 112px !important;
+    padding: 18px max(6%, calc((100% - 1220px) / 2)) !important;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid #e7ecf5;
+    box-shadow: 0 10px 30px rgba(31, 57, 103, 0.05);
+}
+
+.loja-beneficios article {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 8px 28px;
+    border-right: 1px solid #e7ecf5;
+}
+
+.loja-beneficios article:first-child { padding-left: 0; }
+.loja-beneficios article:last-child { border-right: 0; }
+
+.loja-beneficios article > span {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #edf3ff;
+    color: var(--loja-azul);
+    font: 20px Arial, sans-serif;
+}
+
+.loja-beneficios article:nth-child(2) > span { color: #b78b00; background: #fff7c9; }
+.loja-beneficios article:nth-child(3) > span { color: #d10a3a; background: #ffeaf0; }
+
+.loja-beneficios strong,
+.loja-beneficios small {
+    display: block;
+}
+
+.loja-beneficios strong {
+    color: #243653;
+    font: 700 14px Arial, sans-serif;
+}
+
+.loja-beneficios small {
+    margin-top: 5px;
+    color: #7b8799;
+    font: 12px Arial, sans-serif;
+}
+
+.produto-card {
+    border-radius: 16px;
+}
+
+.produto-imagem {
+    background:
+        radial-gradient(circle at 50% 58%, rgba(255, 255, 255, 0.95) 0 34%, transparent 35%),
+        linear-gradient(145deg, #edf3ff, #f8faff);
+}
+
+.produto-card:hover .produto-etiqueta {
+    animation: etiqueta-pop 0.45s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes etiqueta-pop {
+    50% { transform: translateY(-3px) scale(1.08) rotate(-2deg); }
+}
+
+.produto-adicionar.adicionado {
+    background: #14873a;
+    animation: botao-confirmado 0.5s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@keyframes botao-confirmado {
+    50% { transform: scale(1.08); }
+}
+
 @media (max-width: 900px) {
     .loja-hero {
         min-height: 410px !important;

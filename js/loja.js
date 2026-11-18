@@ -108,7 +108,7 @@
         categoria: "todos",
         busca: "",
         ordenacao: "destaques",
-        carrinho: new Map()
+        carrinho: new Map(JSON.parse(localStorage.getItem("mario-loja-carrinho") || "[]"))
     };
 
     const grade = document.getElementById("produtos-grade");
@@ -196,7 +196,26 @@
         const botaoAdicionar = criarElemento("button", "produto-adicionar", "Adicionar");
         botaoAdicionar.type = "button";
         botaoAdicionar.setAttribute("aria-label", `Adicionar ${produto.nome} ao carrinho`);
-        botaoAdicionar.addEventListener("click", () => adicionarAoCarrinho(produto.id));
+        botaoAdicionar.addEventListener("click", () => {
+            adicionarAoCarrinho(produto.id);
+            botaoAdicionar.classList.remove("adicionado");
+            void botaoAdicionar.offsetWidth;
+            botaoAdicionar.classList.add("adicionado");
+            botaoAdicionar.textContent = "Adicionado!";
+            setTimeout(() => {
+                botaoAdicionar.classList.remove("adicionado");
+                botaoAdicionar.textContent = "Adicionar";
+            }, 900);
+            if (window.MarioFX) {
+                const ret = botaoAdicionar.getBoundingClientRect();
+                window.MarioFX.particulas(ret.left + ret.width / 2, ret.top + ret.height / 2, {
+                    paleta: "moeda",
+                    quantidade: 8,
+                    distancia: 55,
+                    tamanho: 7
+                });
+            }
+        });
         compra.appendChild(botaoAdicionar);
 
         info.appendChild(compra);
@@ -227,6 +246,7 @@
         estado.carrinho.set(id, (estado.carrinho.get(id) || 0) + 1);
         renderizarCarrinho();
         mostrarToast(`${produto.nome} adicionado ao carrinho.`);
+        atualizarLocalStorage();
     }
 
     function alterarQuantidade(id, variacao) {
@@ -237,6 +257,7 @@
             estado.carrinho.set(id, quantidade);
         }
         renderizarCarrinho();
+        atualizarLocalStorage();
     }
 
     function criarLinhaCarrinho(produto, quantidade) {
@@ -268,6 +289,7 @@
         remover.addEventListener("click", () => {
             estado.carrinho.delete(produto.id);
             renderizarCarrinho();
+            atualizarLocalStorage();
         });
 
         linha.append(imagem, detalhes, remover);
@@ -301,6 +323,8 @@
             const produto = produtos.find(item => item.id === id);
             if (produto) itensCarrinho.appendChild(criarLinhaCarrinho(produto, quantidade));
         });
+
+        localStorage.setItem("mario-loja-carrinho", JSON.stringify(Array.from(estado.carrinho.entries())));
     }
 
     function abrirCarrinho() {
@@ -326,6 +350,10 @@
         if (focoAnterior && typeof focoAnterior.focus === "function") {
             focoAnterior.focus();
         }
+    }
+
+    function atualizarLocalStorage() {
+        localStorage.setItem("mario-loja-carrinho", JSON.stringify(Array.from(estado.carrinho)));
     }
 
     document.querySelectorAll(".categoria-botao").forEach(botao => {
