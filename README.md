@@ -54,4 +54,3 @@ HTML5 · CSS3 · JavaScript (vanilla)
 ---
 
 *Projeto fan-made e sem fins comerciais. Mario e personagens são marcas da Nintendo.*
-s
