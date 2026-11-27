@@ -1,37 +1,21 @@
-/* =================================================
-   PÁGINA DE LOGIN — cadastro e login com localStorage
-
-   Não tem servidor nem banco de dados: os usuários ficam
-   guardados no navegador (localStorage). Serve bem pra
-   projeto de faculdade, mas NÃO é seguro de verdade.
-
-   Usa window.MarioFX (js/navbar.js) para os efeitos.
-
-   Também cria o window.Auth, que outras páginas (tipo a
-   navbar) podem usar:
-     Auth.usuarioAtual()  -> { nome, email } ou null
-     Auth.sair()          -> faz logout
-   Qualquer elemento com o atributo data-sair vira botão de sair.
-================================================= */
+/* Login e cadastro ficam no navegador; isso não substitui uma autenticação real. */
 
 (function () {
 
     "use strict";
 
-    // Pra onde ir depois de entrar (troca pelo nome da tua página)
-    const PAGINA_DESTINO = "index.html";
+    // Página aberta depois do login.
+    const PAGINA_DESTINO = "perfil.html";
 
-    // Nomes das chaves no localStorage
-    const CHAVE_USUARIOS = "mario_usuarios";   // lista de todas as contas
-    const CHAVE_SESSAO   = "mario_sessao";     // email de quem está logado
+    // Chaves usadas para guardar usuários e sessão.
+    const CHAVE_USUARIOS = "mario_usuarios";
+    const CHAVE_SESSAO   = "mario_sessao";
 
     const toast = document.getElementById("auth-toast");
     let tempoToast = null;
 
 
-    /* =============================================
-       AVISO (TOAST)
-    ============================================= */
+    // Aviso temporário na tela.
 
     function mostrarAviso(texto) {
 
@@ -48,11 +32,7 @@
     }
 
 
-    /* =============================================
-       LOCALSTORAGE: usuários e sessão
-       (tudo com try/catch porque o navegador pode
-       bloquear o storage em aba anônima, por ex.)
-    ============================================= */
+    // Leitura e gravação das contas no navegador.
 
     function lerUsuarios() {
 
@@ -60,7 +40,7 @@
             const bruto = localStorage.getItem(CHAVE_USUARIOS);
             return bruto ? JSON.parse(bruto) : [];
         } catch (erro) {
-            return [];   // se deu ruim, trata como se não tivesse ninguém
+            return []; // Ignora dados inválidos e começa sem usuários.
         }
     }
 
@@ -103,20 +83,14 @@
 
         try {
             localStorage.removeItem(CHAVE_SESSAO);
-        } catch (erro) { /* sem o que fazer */ }
+        } catch (erro) { /* A sessão pode já ter sido encerrada. */ }
 
-        // Avisa o resto do site (a navbar pode escutar isso)
+        // Avisa o restante do site que a sessão mudou.
         window.dispatchEvent(new Event("auth:mudou"));
     }
 
 
-    /* =============================================
-       HASH DA SENHA
-       Pelo menos não guarda a senha escrita lá em texto
-       puro. Usa SHA-256 quando o navegador deixa
-       (crypto.subtle só funciona em https ou localhost).
-       Se não deixar, cai num hash simplão.
-    ============================================= */
+    // Gera um hash local para a senha.
 
     async function hashSenha(senha) {
 
@@ -130,7 +104,7 @@
                 .join("");
         }
 
-        // Plano B: hash simples (djb2). Fraco, mas melhor que nada
+        // Usa um hash simples se o Web Crypto não estiver disponível.
         let h = 5381;
 
         for (let i = 0; i < senha.length; i++) {
@@ -142,9 +116,7 @@
     }
 
 
-    /* =============================================
-       VALIDAÇÃO VISUAL
-    ============================================= */
+    // Validação dos campos.
 
     const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -154,7 +126,7 @@
         const aviso = caixa.querySelector(".campo-erro");
 
         caixa.classList.remove("invalido");
-        void caixa.offsetWidth;                // truque pra reiniciar a animação
+        void caixa.offsetWidth; // Reinicia a animação.
 
         if (mensagem) caixa.classList.add("invalido");
 
@@ -173,7 +145,7 @@
         caixa.querySelector(".campo-erro").textContent = "";
     }
 
-    // Quando a pessoa volta a digitar, o erro daquele campo some
+    // Remove o erro quando o campo é editado.
     document.querySelectorAll(".campo input").forEach(campo => {
         campo.addEventListener("input", () => limparErro(campo));
     });
@@ -201,9 +173,7 @@
     }
 
 
-    /* =============================================
-       EFEITO DE SUCESSO (moedas e estrelas)
-    ============================================= */
+    // Efeito após login ou cadastro.
 
     function festa(botao) {
 
@@ -217,7 +187,7 @@
         window.MarioFX.particulas(x, y, { paleta: "estrela", estrela: true, quantidade: 14, distancia: 110 });
     }
 
-    // Espera um pouquinho (pra dar tempo de ver a festa) e vai pra outra página
+    // Dá tempo de ver a animação antes de redirecionar.
     function irParaDestino() {
         setTimeout(() => {
             window.location.href = PAGINA_DESTINO;
@@ -225,9 +195,7 @@
     }
 
 
-    /* =============================================
-       FORMULÁRIO: ENTRAR
-    ============================================= */
+    // Login.
 
     const formEntrar = document.getElementById("form-entrar");
 
@@ -242,7 +210,7 @@
 
         const usuario = acharUsuario(formEntrar.email.value);
 
-        // Mesma mensagem pros dois casos, pra não entregar qual e-mail existe
+        // A mesma mensagem evita revelar se o e-mail está cadastrado.
         if (!usuario) {
             erroDoCampo(formEntrar.senha, "E-mail ou senha incorretos.");
             return;
@@ -272,9 +240,7 @@
     });
 
 
-    /* =============================================
-       FORMULÁRIO: CADASTRO
-    ============================================= */
+    // Cadastro.
 
     const formCadastro = document.getElementById("form-cadastro");
     const erroTermos = formCadastro.querySelector(".campo-erro-termos");
@@ -313,7 +279,7 @@
 
         if (!(okNome && okEmail && okSenha && okConfirmar && okTermos)) return;
 
-        // E-mail repetido? Não pode ter duas contas iguais
+        // Não permite cadastrar o mesmo e-mail duas vezes.
         if (acharUsuario(formCadastro.email.value)) {
             erroDoCampo(formCadastro.email, "Esse e-mail já tem uma conta.");
             return;
@@ -334,7 +300,7 @@
             return;
         }
 
-        // Já deixa a pessoa logada depois de criar a conta
+        // Inicia a sessão após o cadastro.
         entrar(novo.email);
         window.dispatchEvent(new Event("auth:mudou"));
 
@@ -346,9 +312,7 @@
     });
 
 
-    /* =============================================
-       MOSTRAR / OCULTAR SENHA
-    ============================================= */
+    // Exibe ou oculta a senha.
 
     document.querySelectorAll(".ver-senha").forEach(botao => {
 
@@ -366,11 +330,7 @@
     });
 
 
-    /* =============================================
-       LOGOUT
-       Qualquer botão/link com data-sair faz logout.
-       Ex: <button data-sair>Sair</button>
-    ============================================= */
+    // Encerra a sessão pelos links com data-sair.
 
     document.addEventListener("click", (evento) => {
 
@@ -385,9 +345,7 @@
     });
 
 
-    /* =============================================
-       PERSONAGENS: pulinho ao clicar
-    ============================================= */
+    // Efeito ao clicar nos personagens.
 
     document.querySelectorAll(".auth-personagem").forEach(imagem => {
 
@@ -403,11 +361,7 @@
     });
 
 
-    /* =============================================
-       ÂNCORAS #entrar / #cadastro
-       Destaca o card pedido (vindo do menu Perfil)
-       e leva o foco pro primeiro campo.
-    ============================================= */
+    // Links dos formulários.
 
     function destacar(id, comFoco) {
 
@@ -429,7 +383,7 @@
         });
     }
 
-    // Links "Criar conta" / "Entrar" dentro dos cards
+    // Alterna entre os formulários.
     document.querySelectorAll("[data-ir]").forEach(link => {
 
         link.addEventListener("click", (evento) => {
@@ -439,7 +393,7 @@
         });
     });
 
-    // "Esqueci a senha": ainda não faz nada de verdade
+    // A recuperação de senha ainda não está disponível.
     document.querySelectorAll('.auth-link[href="#"]').forEach(link => {
 
         link.addEventListener("click", (evento) => {
@@ -448,20 +402,16 @@
         });
     });
 
-    // Links do menu Perfil (mesma página, só muda o hash)
+    // Abre o formulário indicado pelo menu.
     window.addEventListener("hashchange", () => destacar(location.hash.slice(1), true));
 
-    // Se a página abriu já com #entrar ou #cadastro
+    // Destaca o formulário se a página abrir com um hash.
     if (location.hash) {
         setTimeout(() => destacar(location.hash.slice(1), false), 350);
     }
 
 
-    /* =============================================
-       JÁ ESTÁ LOGADO?
-       Se a pessoa abrir a tela de login com sessão
-       ativa, só avisa quem está logado.
-    ============================================= */
+    // Avisa quando já há uma sessão ativa.
 
     const logado = usuarioAtual();
 
@@ -470,9 +420,7 @@
     }
 
 
-    /* =============================================
-       Deixa o Auth disponível pro resto do site
-    ============================================= */
+    // API de sessão usada pelo restante do site.
 
     window.Auth = {
         usuarioAtual: usuarioAtual,

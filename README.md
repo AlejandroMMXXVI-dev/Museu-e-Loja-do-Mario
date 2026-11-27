@@ -10,7 +10,7 @@ Site temático (front-end puro, sem banco de dados) que reúne um pequeno **muse
 | **História** (`secao01`) | Abertura "Nintendo apresenta: História do Mario" |
 | **Personagens** (`secao02`) | Galeria interativa: seletor de personagens (Mario, Luigi, Peach, Yoshi, Bowser, etc.) com painel de informações e animações |
 | **Loja** (`secao03`) | Blocos misteriosos que revelam itens e botão para a vitrine |
-| `loja.html` | Vitrine demonstrativa com busca, categorias, ordenação e carrinho local (sem checkout/API) |
+| `loja.html` | Loja só de jogos do Mario: destaques, busca, categorias, ordenação, carrinho e compra salva no navegador |
 | `login.html` | Login e cadastro lado a lado (apenas visual, sem envio nem armazenamento de dados) |
 
 ## Destaques

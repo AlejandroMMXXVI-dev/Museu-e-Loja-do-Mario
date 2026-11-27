@@ -1,5 +1,5 @@
 
-// Arquivos HTML que serão carregados
+// Seções do museu.
 
 const secoes = [
     {
@@ -17,7 +17,7 @@ const secoes = [
 ];
 
 
-// Carregar as seções na página
+// Carrega cada seção na página.
 
 async function carregarSecoes() {
 
@@ -37,15 +37,6 @@ async function carregarSecoes() {
 
     }
     
-
-    // =================================
-// WARP PIPE SCROLL
-// =================================
-
-// =================================
-// WARP PIPE - SINCRONIZAÇÃO
-// =================================
-
 
 }
 
@@ -86,30 +77,26 @@ function configurarWarpScroll() {
         cano.style.top = `${posicao}px`;
     }
 
-    // Atualiza durante a rolagem
+    // Atualiza durante a rolagem.
     window.addEventListener("scroll", atualizarCano);
 
-    // Atualiza ao redimensionar a janela
+    // Atualiza ao redimensionar a janela.
     window.addEventListener("resize", atualizarCano);
 
-    // Espera a imagem carregar
+    // Espera o cano carregar.
     if (cano.complete) {
         atualizarCano();
     } else {
         cano.addEventListener("load", atualizarCano);
     }
 
-    // Atualiza depois que o navegador terminar de renderizar
+    // Atualiza após o próximo frame.
     requestAnimationFrame(atualizarCano);
 
     console.log("Warp Pipe inicializada!");
 }
 
-// =================================
-// CATÁLOGO DE PERSONAGENS
-// =================================
-
-
+// Personagens disponíveis no seletor.
 const personagens = {
 
     mario: {
@@ -186,12 +173,7 @@ const personagens = {
 
 
 
-// =================================
-// EFEITOS COMPARTILHADOS (js/navbar.js)
-// Se o módulo não carregar, o site continua
-// funcionando, apenas sem os efeitos extras.
-// =================================
-
+// Usa os efeitos extras quando o módulo da navbar está disponível.
 const FX = window.MarioFX || {
     menosMovimento: () => true,
     reiniciarAnimacao: () => {},
@@ -199,10 +181,6 @@ const FX = window.MarioFX || {
     moeda: () => {}
 };
 
-
-// =================================
-// SELETOR DE PERSONAGENS
-// =================================
 
 function configurarSeletorPersonagens() {
 
@@ -218,17 +196,17 @@ function configurarSeletorPersonagens() {
     const arte = imagem.closest(".personagem-arte");
     const info = document.querySelector(".personagem-info");
 
-    // Ordem dos botões: define para que lado a imagem desliza
+    // A ordem define a direção da transição.
     const ordem = Array.from(botoes).map(botao => botao.dataset.personagem);
 
     const ativoInicial = document.querySelector(".personagem-btn.ativo");
 
     let atual = ativoInicial ? ativoInicial.dataset.personagem : ordem[0];
 
-    // Evita que cliques rápidos se atropelem
+    // Ignora a transição anterior se houver outro clique.
     let tokenTroca = 0;
 
-    // Atualiza as informações (lógica original)
+    // Atualiza os dados do personagem.
     function aplicarDados(dados) {
 
         imagem.src = dados.imagem;
@@ -239,7 +217,7 @@ function configurarSeletorPersonagens() {
         descricao.textContent = dados.descricao;
     }
 
-    // Transição: sai o personagem atual, entra o novo
+    // Anima a saída do personagem atual e a entrada do próximo.
     function trocarComAnimacao(dados, direcao) {
 
         const meuToken = ++tokenTroca;
@@ -263,7 +241,7 @@ function configurarSeletorPersonagens() {
 
             if (meuToken !== tokenTroca) return;
 
-            // Pré-carrega para a imagem nova não "piscar"
+            // Carrega a imagem antes da troca.
             const preCarga = new Image();
 
             const concluir = () => {
@@ -275,7 +253,7 @@ function configurarSeletorPersonagens() {
                 imagem.classList.remove("troca-saida");
                 if (info) info.classList.remove("troca-saida");
 
-                // Reinicia a animação de entrada
+                // Reinicia a animação de entrada.
                 void imagem.offsetWidth;
 
                 imagem.classList.add("troca-entrada");
@@ -310,14 +288,14 @@ function configurarSeletorPersonagens() {
 
             if (!dados) return;
 
-            // Atualiza o botão ativo
+            // Marca o botão selecionado.
             botoes.forEach(botao => {
                 botao.classList.remove("ativo");
             });
 
             this.classList.add("ativo");
 
-            // Feedback no botão clicado
+            // Dá retorno visual ao clique.
             FX.reiniciarAnimacao(this.querySelector("img"), "pulinho", 520);
 
             const caixa = this.getBoundingClientRect();
@@ -328,8 +306,7 @@ function configurarSeletorPersonagens() {
                 { quantidade: 7, distancia: 55, tamanho: 7, estrela: true, gravidade: 25 }
             );
 
-            // Mesmo personagem: mantém o comportamento original
-            // (reaplica os dados do catálogo), sem animação de troca
+            // Reaplica os dados sem animar a troca.
             if (personagemSelecionado === atual) {
                 aplicarDados(dados);
                 return;
@@ -346,7 +323,7 @@ function configurarSeletorPersonagens() {
 
     });
 
-    // Clicar no personagem: um pulinho e uma moeda
+    // O clique faz o personagem pular e solta uma moeda.
     imagem.addEventListener("click", () => {
 
         FX.reiniciarAnimacao(imagem, "pulando", 650);
@@ -360,9 +337,7 @@ function configurarSeletorPersonagens() {
 }
 
 
-// =================================
-// DESCOBERTAS DOS BLOCOS MISTERIOSOS
-// =================================
+// Itens dos blocos misteriosos.
 
 const descobertas = {
     cogumelo: {
@@ -391,9 +366,7 @@ const descobertas = {
 };
 
 
-// =================================
-// CONFIGURAR BLOCOS MISTERIOSOS
-// =================================
+// Configura os blocos misteriosos.
 
 function configurarBlocosMisteriosos() {
 
@@ -409,17 +382,17 @@ function configurarBlocosMisteriosos() {
 
         const item = card.dataset.item;
 
-        // Guarda os textos originais uma única vez
+        // Salva os textos antes da primeira troca.
         titulo.dataset.original = titulo.textContent;
         descricao.dataset.original = descricao.textContent;
 
-        // Centro da área do bloco, para posicionar os efeitos
+        // Centro do bloco, usado para posicionar os efeitos.
         function centroDoBloco() {
             const caixa = arte.getBoundingClientRect();
             return { x: caixa.left + caixa.width / 2, y: caixa.top + caixa.height / 2 };
         }
 
-        // Voltar ao bloco original (lógica original)
+        // Restaura o bloco.
         function voltarAoBloco() {
 
             imagem.src = "images/caixa-interrogacao.png";
@@ -433,7 +406,7 @@ function configurarBlocosMisteriosos() {
             card.classList.remove("descoberto");
         }
 
-        // Mostrar descoberta (lógica original)
+        // Mostra o item encontrado.
         function mostrarDescoberta(descoberta) {
 
             imagem.src = descoberta.imagem;
@@ -449,17 +422,17 @@ function configurarBlocosMisteriosos() {
 
         botao.addEventListener("click", () => {
 
-            // Evita duplo clique durante a animação
+            // Evita cliques repetidos durante a animação.
             if (card.dataset.ocupado === "1") return;
 
-            // Voltar ao bloco original
+            // Restaura o bloco.
             if (card.classList.contains("descoberto")) {
 
                 const { x, y } = centroDoBloco();
 
                 voltarAoBloco();
 
-                // Feedback: poeira + o bloco "cai" de volta no lugar
+                // Mostra a poeira quando o bloco volta ao lugar.
                 FX.particulas(x, y + 30, {
                     paleta: "poeira",
                     quantidade: 8,
@@ -478,18 +451,18 @@ function configurarBlocosMisteriosos() {
 
             if (!descoberta) return;
 
-            // Sem animações: comportamento original, direto
+            // Sem animação, mostra o resultado direto.
             if (FX.menosMovimento()) {
                 mostrarDescoberta(descoberta);
                 return;
             }
 
-            // 1) Impacto: o bloco é "acertado" por baixo
+            // O bloco sobe com o impacto.
             card.dataset.ocupado = "1";
 
             FX.reiniciarAnimacao(card, "bloco-impacto", 400);
 
-            // 2) No ponto mais alto do impacto, o item surge
+            // O item aparece no ponto mais alto.
             setTimeout(() => {
 
                 card.classList.remove("bloco-impacto");
@@ -523,11 +496,7 @@ function configurarBlocosMisteriosos() {
 }
 
 
-// =================================
-// REVELAR AO ROLAR (IntersectionObserver)
-// Atua apenas nas seções 02 e 03.
-// A Seção 01 nunca é selecionada.
-// =================================
+// Revela o conteúdo das seções 02 e 03 ao rolar.
 
 function prepararRevelacoes() {
 
@@ -535,8 +504,7 @@ function prepararRevelacoes() {
 
     const grupos = [];
 
-    // O HTML da seção 02 tem um <header> aninhado: o último
-    // elemento encontrado é sempre o cabeçalho "de verdade".
+    // A seção 02 tem cabeçalhos internos; usa o último.
     const cabecalhos02 = document.querySelectorAll("#nostalgia .cabecalho-personagens");
 
     if (cabecalhos02.length) {
@@ -570,7 +538,7 @@ function prepararRevelacoes() {
 
     });
 
-    // Navegadores antigos: mostra tudo de uma vez
+    // Em navegadores sem IntersectionObserver, mostra tudo.
     if (!("IntersectionObserver" in window)) {
         todos.forEach(elemento => elemento.classList.add("revelado"));
         return;
@@ -595,11 +563,7 @@ function prepararRevelacoes() {
 }
 
 
-// =================================
-// ELEMENTOS FLUTUANTES + PARALLAX DISCRETO
-// Moedas, estrelas e itens nos fundos das
-// seções 02 e 03. Ficam atrás do conteúdo.
-// =================================
+// Decorações flutuantes das seções 02 e 03.
 
 const itensFlutuantes = {
 
@@ -649,7 +613,7 @@ function criarFlutuantes() {
             figura.alt = "";
             figura.draggable = false;
 
-            // Se a imagem não existir, o elemento some sem deixar rastro
+            // Ignora a decoração se a imagem não existir.
             figura.onerror = () => item.remove();
 
             item.appendChild(figura);
@@ -715,7 +679,7 @@ function configurarParallax() {
         requestAnimationFrame(atualizar);
     }
 
-    // Só calcula para as seções que estão na tela
+    // Atualiza apenas as seções visíveis.
     const observador = new IntersectionObserver((entradas) => {
 
         entradas.forEach(entrada => {

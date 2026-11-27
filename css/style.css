@@ -1128,13 +1128,7 @@ BARRA DE NAVEGAÇÃO
 }
 
 
-/* =====================================================================
-   =====================================================================
-   MELHORIAS DE INTERATIVIDADE E ANIMAÇÃO
-   ---------------------------------------------------------------------
-   Tudo abaixo usa classes próprias ou escopo explícito. Nada aqui
-   seleciona a Seção 01 nem as classes do macacão do Luigi.
-   ===================================================================== */
+/* Animações e interações do site. */
 
 
 /* =================================
@@ -1596,7 +1590,7 @@ BARRA DE NAVEGAÇÃO
     transform: scale(0.94);
 }
 
-/* 1) Impacto: o bloco é "acertado" por baixo */
+/* Impacto do bloco */
 
 .bloco-card.bloco-impacto .imagem-descoberta {
     animation: bloco-impacto 0.38s cubic-bezier(.3, 1.6, .5, 1);
@@ -1644,7 +1638,7 @@ BARRA DE NAVEGAÇÃO
     100% { opacity: 0;   transform: scale(1.5); }
 }
 
-/* 3) Retorno: o bloco "cai" de volta no lugar */
+/* Retorno do bloco */
 
 .bloco-card.bloco-retorno .imagem-descoberta {
     animation: bloco-retorno 0.5s cubic-bezier(.34, 1.4, .64, 1);
@@ -1767,7 +1761,7 @@ BARRA DE NAVEGAÇÃO
     }
 }
 
-/* Animação suave aplicada pelas páginas */
+/* Entrada animada */
 .animacoes-ativas .entrada-reveal {
     opacity: 0;
     transform: translateY(28px);

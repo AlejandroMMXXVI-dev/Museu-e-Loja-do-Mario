@@ -1,118 +1,7 @@
 (function () {
     "use strict";
 
-    const produtos = [
-        {
-            id: "odyssey",
-            nome: "Super Mario Odyssey",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "Explore reinos incríveis ao lado de Cappy.",
-            preco: 299.9,
-            imagem: "images/super_mario_Odyssey.avif",
-            etiqueta: "Mais vendido"
-        },
-        {
-            id: "wonder",
-            nome: "Super Mario Bros. Wonder",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "O Reino das Flores nunca foi tão surpreendente.",
-            preco: 279.9,
-            imagem: "images/super_mario_bros_wonder.avif",
-            etiqueta: "Novidade"
-        },
-        {
-            id: "kart",
-            nome: "Mario Kart 8 Deluxe",
-            categoria: "corrida",
-            categoriaLabel: "Corrida",
-            descricao: "Acelere com todos os seus personagens favoritos.",
-            preco: 289.9,
-            imagem: "images/mario_kart_8D.avif",
-            etiqueta: ""
-        },
-        {
-            id: "zelda-tears",
-            nome: "The Legend of Zelda: Tears of the Kingdom",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "Construa, voe e desafie Hyrule em uma nova jornada.",
-            preco: 349.9,
-            capa: ["ZELDA", "#d7a31a", "Tears of the Kingdom"],
-            etiqueta: "Grande aventura"
-        },
-        {
-            id: "zelda-breath",
-            nome: "The Legend of Zelda: Breath of the Wild",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "Escute o chamado da aventura pelo vasto mundo de Hyrule.",
-            preco: 319.9,
-            capa: ["ZELDA", "#31552b", "Breath of the Wild"],
-            etiqueta: "Essencial"
-        },
-        {
-            id: "donkey-kong",
-            nome: "Donkey Kong Country: Tropical Freeze",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "Uma viagem cheia de ritmo pelos mundos tropicais.",
-            preco: 249.9,
-            capa: ["DONKEY KONG", "#7a3e16", "Tropical Freeze"],
-            etiqueta: ""
-        },
-        {
-            id: "mario-party",
-            nome: "Super Mario Party Jamboree",
-            categoria: "familia",
-            categoriaLabel: "Família",
-            descricao: "Minijogos, tabuleiros e muita diversão para todos.",
-            preco: 329.9,
-            capa: ["MARIO PARTY", "#b83a79", "Jamboree"],
-            etiqueta: "Multijogador"
-        },
-        {
-            id: "pikmin",
-            nome: "Pikmin 4",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "Comande os Pikmin e explore um planeta misterioso.",
-            preco: 259.9,
-            capa: ["PIKMIN", "#5f7f25", "Pikmin 4"],
-            etiqueta: ""
-        },
-        {
-            id: "luigis-mansion",
-            nome: "Luigi's Mansion 3",
-            categoria: "aventura",
-            categoriaLabel: "Aventura",
-            descricao: "Luigi enfrenta fantasmas em um hotel assustador.",
-            preco: 239.9,
-            capa: ["LUIGI", "#1b5e44", "Mansion 3"],
-            etiqueta: "Família"
-        },
-        {
-            id: "animal-crossing",
-            nome: "Animal Crossing: New Horizons",
-            categoria: "familia",
-            categoriaLabel: "Família",
-            descricao: "Construa seu paraíso em uma ilha cheia de amigos.",
-            preco: 269.9,
-            capa: ["ANIMAL CROSSING", "#4e9f91", "New Horizons"],
-            etiqueta: ""
-        },
-        {
-            id: "splatoon",
-            nome: "Splatoon 3",
-            categoria: "familia",
-            categoriaLabel: "Família",
-            descricao: "Entre na tinta e lute pela maior pontuação.",
-            preco: 249.9,
-            capa: ["SPLATOON", "#7632a8", "Splatoon 3"],
-            etiqueta: ""
-        }
-    ];
+    const produtos = window.CATALOGO;
 
     const estado = {
         categoria: "todos",
@@ -205,7 +94,11 @@
 
         const info = criarElemento("div", "produto-info");
         info.appendChild(criarElemento("p", "produto-categoria", produto.categoriaLabel));
-        info.appendChild(criarElemento("h3", "", produto.nome));
+        const titulo = criarElemento("h3");
+        const linkJogo = criarElemento("a", "", produto.nome);
+        linkJogo.href = "jogo.html?id=" + encodeURIComponent(produto.id);
+        titulo.appendChild(linkJogo);
+        info.appendChild(titulo);
         info.appendChild(criarElemento("p", "produto-descricao", produto.descricao));
 
         const compra = criarElemento("div", "produto-compra");
@@ -236,8 +129,25 @@
         });
         compra.appendChild(botaoAdicionar);
 
+        // Usa a imagem da API quando não há uma capa local.
+        if (!produto.imagem && window.Midia) {
+            window.Midia.buscar(produto.nome).then(midia => {
+                const capaAtual = imagemCaixa.querySelector(".produto-capa");
+                if (!midia.foto || !capaAtual) return;
+                const foto = document.createElement("img");
+                foto.src = midia.foto;
+                foto.alt = produto.nome;
+                foto.loading = "lazy";
+                capaAtual.replaceWith(foto);
+            });
+        }
+
         info.appendChild(compra);
         card.append(imagemCaixa, info);
+        card.addEventListener("click", (evento) => {
+            if (evento.target.closest("button, a")) return;
+            window.location.href = linkJogo.href;
+        });
         return card;
     }
 
@@ -443,6 +353,139 @@
         }
     });
 
+    // Finaliza a compra.
+    const botaoFinalizar = document.getElementById("finalizar-pedido");
+
+    botaoFinalizar.addEventListener("click", () => {
+        if (!estado.carrinho.size) {
+            mostrarToast("Seu carrinho está vazio.");
+            return;
+        }
+
+        if (!window.Auth || !window.Auth.usuarioAtual()) {
+            mostrarToast("Entre na sua conta para finalizar a compra.");
+            setTimeout(() => { window.location.href = "login.html#entrar"; }, 1500);
+            return;
+        }
+
+        const itens = [];
+        estado.carrinho.forEach((qtd, id) => {
+            const p = produtos.find(item => item.id === id);
+            if (p) {
+                itens.push({ id: p.id, nome: p.nome, preco: p.preco, qtd: qtd, imagem: p.imagem || null, capa: p.capa || null });
+            }
+        });
+
+        if (!window.Auth.registrarCompra(itens)) {
+            mostrarToast("Não consegui salvar a compra. O navegador bloqueou o armazenamento?");
+            return;
+        }
+
+        estado.carrinho.clear();
+        renderizarCarrinho();
+        fecharCarrinho();
+        mostrarToast("Compra realizada! Abrindo seu perfil...");
+        setTimeout(() => { window.location.href = "perfil.html"; }, 1500);
+    });
+
+    // Carrossel de destaques.
+    const palco = document.getElementById("destaque");
+    const IDS_DESTAQUE = ["odyssey", "wonder", "kart", "party-jamboree"];
+
+    function criarArte(produto, link) {
+        if (produto.imagem) {
+            const img = document.createElement("img");
+            img.src = produto.imagem;
+            img.alt = "";
+            link.appendChild(img);
+            return;
+        }
+        const capa = criarElemento("div", "produto-capa");
+        capa.style.setProperty("--capa-fundo", `linear-gradient(145deg, ${produto.capa[1]}, #111a2f)`);
+        capa.append(criarElemento("small", "", produto.capa[0]), criarElemento("strong", "", produto.capa[2]));
+        link.appendChild(capa);
+
+        if (window.Midia) {
+            window.Midia.buscar(produto.nome).then(midia => {
+                if (!midia.foto || !capa.isConnected) return;
+                const foto = document.createElement("img");
+                foto.src = midia.foto;
+                foto.alt = "";
+                capa.replaceWith(foto);
+            });
+        }
+    }
+
+    if (palco) {
+        const destaques = IDS_DESTAQUE.map(id => produtos.find(p => p.id === id)).filter(Boolean);
+        const pontos = criarElemento("div", "destaque-pontos");
+        const slides = [];
+        const botoes = [];
+        let atual = 0;
+        let timer = null;
+
+        destaques.forEach((produto, n) => {
+            const slide = criarElemento("article", "destaque-slide" + (n === 0 ? " ativo" : ""));
+            const texto = criarElemento("div", "destaque-texto");
+            if (produto.etiqueta) texto.appendChild(criarElemento("span", "destaque-etiqueta", produto.etiqueta));
+            texto.append(
+                criarElemento("h2", "", produto.nome),
+                criarElemento("p", "", produto.descricao),
+                criarElemento("span", "destaque-preco", formatarPreco(produto.preco))
+            );
+
+            const acoes = criarElemento("div", "destaque-acoes");
+            const ver = criarElemento("a", "btn-verde", "Ver jogo");
+            ver.href = "jogo.html?id=" + encodeURIComponent(produto.id);
+            const add = criarElemento("button", "btn-contorno", "🛒 Adicionar");
+            add.type = "button";
+            add.addEventListener("click", () => adicionarAoCarrinho(produto.id));
+            acoes.append(ver, add);
+            texto.appendChild(acoes);
+
+            const arte = criarElemento("a", "destaque-arte");
+            arte.href = ver.href;
+            arte.tabIndex = -1;
+            arte.setAttribute("aria-hidden", "true");
+            criarArte(produto, arte);
+
+            slide.append(texto, arte);
+            palco.appendChild(slide);
+            slides.push(slide);
+
+            const ponto = criarElemento("button", "destaque-ponto" + (n === 0 ? " ativo" : ""));
+            ponto.type = "button";
+            ponto.setAttribute("aria-label", "Ir para " + produto.nome);
+            ponto.addEventListener("click", () => { ir(n); reiniciar(); });
+            pontos.appendChild(ponto);
+            botoes.push(ponto);
+        });
+
+        palco.appendChild(pontos);
+
+        function ir(n) {
+            atual = (n + slides.length) % slides.length;
+            slides.forEach((s, i) => s.classList.toggle("ativo", i === atual));
+            botoes.forEach((b, i) => b.classList.toggle("ativo", i === atual));
+        }
+
+        function parar() { clearInterval(timer); timer = null; }
+        function reiniciar() {
+            parar();
+            const reduz = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            if (!reduz && slides.length > 1) timer = setInterval(() => ir(atual + 1), 6000);
+        }
+
+        palco.addEventListener("mouseenter", parar);
+        palco.addEventListener("mouseleave", reiniciar);
+        palco.addEventListener("focusin", parar);
+        palco.addEventListener("focusout", reiniciar);
+        reiniciar();
+    }
+
     renderizarProdutos();
     renderizarCarrinho();
+
+    // Abre o carrinho se o usuário voltar da página do jogo.
+    if (window.location.hash === "#carrinho") abrirCarrinho();
 })();
