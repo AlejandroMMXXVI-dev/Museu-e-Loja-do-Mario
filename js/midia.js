@@ -26,11 +26,17 @@
         } catch (erro) { /* O cache não é essencial. */ }
     }
 
+    // Se a rede/CORS bloquear a RAWG, para de insistir e o site segue sem as fotos.
+    let apiBloqueada = false;
+
     async function pegar(caminho) {
+        if (apiBloqueada) return null;
         try {
-            const r = await fetch(API + caminho + (caminho.includes("?") ? "&" : "?") + "key=" + RAWG_KEY);
+            const r = await fetch(API + caminho + (caminho.includes("?") ? "&" : "?") + "key=" + encodeURIComponent(RAWG_KEY), { mode: "cors", credentials: "omit" });
             return r.ok ? await r.json() : null;
         } catch (erro) {
+            apiBloqueada = true;
+            console.warn("RAWG inacessível (bloqueio de rede/extensão ou fora do ar). O site continua sem as fotos da API.");
             return null;
         }
     }
