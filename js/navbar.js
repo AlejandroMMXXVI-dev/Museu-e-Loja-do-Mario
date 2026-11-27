@@ -1,13 +1,4 @@
-/* =================================================
-   MARIO FX + NAVBAR (módulo compartilhado)
-
-   Pode ser incluído em qualquer página que use a
-   mesma navbar (museu, loja, perfil...).
-
-   Expõe:
-   - window.MarioFX  → utilitários de efeitos
-   - window.MarioNav → recursos da navbar
-================================================= */
+/* Efeitos e navegação compartilhados pelo site. */
 
 (function () {
 
@@ -20,11 +11,7 @@
     }
 
 
-    /* =============================================
-       REINICIAR ANIMAÇÃO POR CLASSE
-       Adiciona uma classe, reinicia a animação caso
-       ela já esteja ativa e remove a classe no fim.
-    ============================================= */
+    // Reinicia uma animação aplicada por classe.
 
     const temporizadores = new WeakMap();
 
@@ -43,7 +30,7 @@
 
         elemento.classList.remove(classe);
 
-        // Força o navegador a "esquecer" a animação anterior
+        // Recalcula o layout para reiniciar a animação.
         void elemento.offsetWidth;
 
         if (menosMovimento()) return;
@@ -56,11 +43,7 @@
     }
 
 
-    /* =============================================
-       PARTÍCULAS
-       Camada fixa única; cada partícula se remove
-       sozinha ao terminar (Web Animations API).
-    ============================================= */
+    // Efeitos de partículas.
 
     const PALETAS = {
         padrao:   ["#ffd500", "#ffffff", "#e00000", "#15c20f"],
@@ -105,7 +88,7 @@
         const camada = obterCamada();
         const cores = PALETAS[paleta] || PALETAS.padrao;
 
-        // Em telas pequenas, menos partículas
+        // Reduz a quantidade de partículas em telas pequenas.
         const total = window.innerWidth < 600
             ? Math.ceil(quantidade * 0.6)
             : quantidade;
@@ -164,9 +147,7 @@
     }
 
 
-    /* =============================================
-       MOEDA SALTANTE (estilo bloco de Super Mario)
-    ============================================= */
+    // Animação da moeda.
 
     function moeda(x, y) {
 
@@ -223,7 +204,7 @@
        NAVBAR
     ============================================= */
 
-    // Considera "index.html" e "/" como a mesma página
+    // Trata "/" e "index.html" como a página inicial.
     function normalizar(caminho) {
         return caminho.replace(/index\.html$/, "");
     }
@@ -233,7 +214,7 @@
             && normalizar(url.pathname) === normalizar(location.pathname);
     }
 
-    // Sombra mais forte depois que a página rola
+    // Reforça a sombra ao rolar a página.
     function configurarSombraDaNavbar() {
 
         const navbar = document.querySelector(".navbar");
@@ -256,7 +237,7 @@
         atualizar();
     }
 
-    // Marca o link da página atual (ex.: Loja quando estiver em loja.html)
+    // Destaca o link da página atual.
     function marcarLinkDaPagina() {
 
         document.querySelectorAll(".navbar-links .nav-link").forEach(link => {
@@ -271,7 +252,7 @@
         });
     }
 
-    // Destaca no menu a seção que está na tela
+    // Destaca a seção visível no menu.
     function iniciarScrollspy() {
 
         if (!("IntersectionObserver" in window)) return;
@@ -309,7 +290,7 @@
             });
         }
 
-        // Faixa fina no meio da tela: a seção que a cruza é a atual
+        // A faixa central indica a seção atual.
         const observador = new IntersectionObserver((entradas) => {
 
             entradas.forEach(entrada => {
@@ -321,7 +302,7 @@
         secoes.forEach(secao => observador.observe(secao));
     }
 
-    // Dropdown de perfil com abertura e fechamento animados
+    // Controla a abertura do menu de perfil.
     function configurarDropdown() {
 
         const dropdown = document.querySelector(".perfil-dropdown");
@@ -347,7 +328,7 @@
             }, 160);
         }
 
-        // Clicar no botão com o menu aberto: fecha com animação
+        // Fecha o menu ao clicar novamente.
         botao.addEventListener("click", (evento) => {
 
             if (dropdown.open) {
@@ -357,12 +338,12 @@
 
         });
 
-        // Clicar fora fecha
+        // Fecha o menu ao clicar fora.
         document.addEventListener("click", (evento) => {
             if (!dropdown.contains(evento.target)) fechar();
         });
 
-        // Esc fecha e devolve o foco ao botão
+        // Fecha com Esc e devolve o foco ao botão.
         document.addEventListener("keydown", (evento) => {
 
             if (evento.key === "Escape" && dropdown.open) {
@@ -374,12 +355,7 @@
     }
 
 
-    /* =============================================
-       TRANSIÇÃO ENTRE PÁGINAS
-       Círculo que cresce a partir do clique (íris),
-       só usa transform. Os destinos dos links são
-       preservados: a navegação acontece ao final.
-    ============================================= */
+    // Transição circular antes de abrir outra página.
 
     let navegando = false;
 
@@ -461,7 +437,7 @@
             if (!/^(https?|file):$/.test(url.protocol)) return;
             if (url.origin !== location.origin) return;
 
-            // Mesma página (âncoras): mantém a rolagem suave nativa
+            // Mantém a rolagem suave nos links da mesma página.
             if (mesmaPagina(url)) return;
 
             if (menosMovimento()) return;
@@ -471,7 +447,7 @@
             let x = evento.clientX;
             let y = evento.clientY;
 
-            // Ativação por teclado não traz coordenadas do mouse
+            // O teclado não fornece coordenadas do mouse.
             if (evento.detail === 0) {
                 const caixa = link.getBoundingClientRect();
                 x = caixa.left + caixa.width / 2;
@@ -481,7 +457,7 @@
             transicaoDePagina(url.href, x, y);
         });
 
-        // Voltar pelo histórico (cache do navegador): limpa a transição
+        // Limpa a transição ao voltar pelo histórico.
         window.addEventListener("pageshow", (evento) => {
 
             if (!evento.persisted) return;

@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/movimento.css">
 </head>
 
 <body class="pagina-login">
@@ -58,7 +59,7 @@
 
     <main class="login-pagina">
 
-        <!-- Decoração de fundo -->
+        <!-- Elementos decorativos -->
         <div class="login-fundo" aria-hidden="true">
             <img src="images/moeda.png" alt="" style="--x: 6%;  --y: 14%; --t: 56px; --dur: 5s;   --atraso: 0s;">
             <img src="images/super-estrela.png" alt="" style="--x: 90%; --y: 10%; --t: 62px; --dur: 6s;   --atraso: -1s;">
@@ -78,7 +79,7 @@
 
             <div class="login-cards">
 
-                <!-- ============ ENTRAR ============ -->
+                <!-- Entrar -->
                 <section class="auth-card auth-entrar" id="entrar" aria-labelledby="titulo-entrar">
 
                     <img src="images/mario.png" alt="" class="auth-personagem">
@@ -131,7 +132,7 @@
                 </section>
 
 
-                <!-- Divisor central -->
+                <!-- Divisor -->
                 <div class="auth-divisor" aria-hidden="true">
                     <span class="auth-divisor-linha"></span>
                     <span class="auth-divisor-moeda">OU</span>
@@ -139,7 +140,7 @@
                 </div>
 
 
-                <!-- ============ CADASTRO ============ -->
+                <!-- Cadastro -->
                 <section class="auth-card auth-cadastro" id="cadastro" aria-labelledby="titulo-cadastro">
 
                     <img src="images/luigi.png" alt="" class="auth-personagem">
@@ -206,12 +207,13 @@
             </div>
         </div>
 
-        <!-- Aviso visual (simulação) -->
+        <!-- Aviso da página -->
         <div class="auth-toast" id="auth-toast" role="status" aria-live="polite"></div>
 
     </main>
 
     <script src="js/navbar.js"></script>
+    <script src="js/sessao.js"></script>
     <script src="js/login.js"></script>
     <script src="js/animacoes.js"></script>
 

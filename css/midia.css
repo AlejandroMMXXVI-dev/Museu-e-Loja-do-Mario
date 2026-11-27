@@ -1,0 +1,92 @@
+/* Trailer e janela de vídeo */
+.trailer-modal {
+    width: min(720px, 92vw);
+    padding: 0;
+    border: 4px solid #fff;
+    border-radius: 18px;
+    background: #0d1b3a;
+    color: #fff;
+    overflow: hidden;
+}
+
+.trailer-modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.trailer-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #003b91;
+}
+
+.trailer-titulo {
+    margin: 0;
+    font-size: 17px;
+}
+
+.trailer-fechar {
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: #003b91;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.trailer-corpo {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+}
+
+.trailer-corpo video {
+    width: 100%;
+    max-height: 60vh;
+    border-radius: 10px;
+    background: #000;
+}
+
+.trailer-aviso {
+    margin: 0;
+    padding: 24px 8px;
+    text-align: center;
+    font: 700 14px Arial, sans-serif;
+}
+
+.trailer-youtube {
+    justify-self: center;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #e52521;
+    color: #fff;
+    font: 700 14px Arial, sans-serif;
+    text-decoration: none;
+}
+
+.trailer-youtube:hover {
+    background: #b81c18;
+}
+
+.produto-trailer {
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 8px 11px;
+    border: 2px solid currentColor;
+    border-radius: 7px;
+    background: transparent;
+    color: #087bea;
+    font: 700 12px Arial, sans-serif;
+    cursor: pointer;
+}
+
+.produto-trailer:hover {
+    background: #087bea;
+    border-color: #087bea;
+    color: #fff;
+}

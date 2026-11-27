@@ -1,80 +1,101 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
+    <title>Meu Perfil - Museu do Mario</title>
 
-    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/pro.css">
+    <link rel="stylesheet" href="css/movimento.css">
 </head>
 
-<body>
+<body class="pagina-perfil pagina-pro">
 
-    <div class="perfil-banner">
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo">
+            <span class="logo-mario">MARIO</span>
+            <span class="logo-subtitulo">MUSEU &amp; LOJA</span>
+        </a>
 
-        <div class="foto-perfil">
-            <img src="images/Prototipo_perfil.jpg" alt="Foto de perfil" width="150px" height="150px">
+        <div class="navbar-links">
+            <a href="index.html#historia" class="nav-link">História</a>
+            <a href="index.html#nostalgia" class="nav-link">Personagens</a>
+            <a href="loja.html" class="nav-link">Loja</a>
         </div>
 
-        <div class="informacoes">
-            <h2>Nome de Usuário</h2>
-        
+        <div class="navbar-perfil">
+            <details class="perfil-dropdown">
+                <summary class="perfil-botao">
+                    <img src="assets/icons/perfil.png" alt="" class="perfil-icone">
+                    Login ou Cadastro
+                    <span class="seta-dropdown">⌄</span>
+                </summary>
+                <div class="dropdown-conteudo">
+                    <p class="dropdown-titulo">Bem-vindo!</p>
+                    <p class="dropdown-descricao">Entre ou crie sua conta para continuar.</p>
+                    <a href="login.html#entrar" class="dropdown-entrar">Entrar</a>
+                    <a href="login.html#cadastro" class="dropdown-cadastrar">Criar conta</a>
+                </div>
+            </details>
         </div>
 
-        <div class="estatisticas">
+        <div class="navbar-cogumelos" aria-hidden="true">
+            <span class="cogumelo-decorativo cogumelo-1"></span>
+            <span class="cogumelo-decorativo cogumelo-2"></span>
+            <span class="cogumelo-decorativo cogumelo-3"></span>
+        </div>
+    </nav>
 
-            <div class="item">
-                <p>Nível</p>
-                <strong>1</strong>
+    <main id="perfil-conteudo">
+
+        <!-- Perfil sem sessão -->
+        <section class="perfil-aviso" id="perfil-deslogado" hidden>
+            <h1>Você ainda não entrou</h1>
+            <p>Faça login para ver seu perfil e os jogos que você comprou.</p>
+            <a class="btn-verde" href="login.html#entrar">Entrar</a>
+            <a class="btn-azul" href="login.html#cadastro">Criar conta</a>
+        </section>
+
+        <!-- Perfil com sessão -->
+        <div id="perfil-logado" hidden>
+
+            <div class="perfil-banner">
+                <div class="foto-perfil">
+                    <img src="images/mario.png" alt="Foto de perfil">
+                </div>
+
+                <div class="informacoes">
+                    <h1 id="perfil-nome"></h1>
+                    <p id="perfil-email"></p>
+                    <p id="perfil-desde"></p>
+                    <button type="button" class="perfil-sair" data-sair>Sair da conta</button>
+                </div>
+
+                <div class="estatisticas">
+                    <div class="estat-item"><p>Nível</p><strong id="stat-nivel">1</strong></div>
+                    <div class="estat-item"><p>Jogos</p><strong id="stat-jogos">0</strong></div>
+                    <div class="estat-item"><p>Total gasto</p><strong id="stat-total">R$ 0,00</strong></div>
+                </div>
             </div>
 
-            <div class="item">
-                <p>Compras</p>
-                <strong>3</strong>
-            </div>
+            <section class="produtos-comprados">
+                <div class="titulo-produtos">
+                    <h2>Produtos comprados</h2>
+                    <p>Confira os jogos que você adquiriu na nossa loja!</p>
+                </div>
 
+                <div class="lista-produtos" id="lista-compras"></div>
+            </section>
         </div>
+    </main>
 
-    </div>
-
-<section class="produtos-comprados">
-
-    <div class="titulo-produtos">
-        <h2> Produtos Comprados</h2>
-        <p>Confira os jogos que você adquiriu na nossa loja!</p>
-    </div>
-
-    <div class="lista-produtos">
-
-        <!-- Produto 1 -->
-        <div class="produto">
-            <img src="images/mario_kart_8D.avif" alt="Mario Kart">
-            <h3>Mario Kart 8 Deluxe</h3>
-            <p>Data da compra: 10/11/2026</p>
-            <button>Ver produto</button>
-        </div>
-
-        <!-- Produto 2 -->
-        <div class="produto">
-            <img src="images/super_mario_Odyssey.avif" alt="Super Mario Odyssey">
-            <h3>Super Mario Odyssey</h3>
-            <p>Data da compra: 05/11/2026</p>
-            <button>Ver produto</button>
-        </div>
-
-        <!-- Produto 3 -->
-        <div class="produto">
-            <img src="images/super_mario_bros_wonder.avif" alt="Super Mario Bros Wonder">
-            <h3>Super Mario Bros. Wonder</h3>
-            <p>Data da compra: 02/11/2026</p>
-            <button>Ver produto</button>
-        </div>
-
-    </div>
-
-</section>
-
+    <script src="js/navbar.js"></script>
+    <script src="js/sessao.js"></script>
+    <script src="js/midia.js"></script>
+    <script src="js/perfil.js"></script>
+    <script src="js/animacoes.js"></script>
 </body>
+
 </html>

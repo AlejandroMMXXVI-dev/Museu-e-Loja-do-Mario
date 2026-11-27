@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#104eae">
-    <meta name="description" content="Explore a vitrine demonstrativa de jogos da Nintendo na loja do Museu do Mario.">
-
+    <meta name="description" content="Loja de games do Mario no Museu do Mario.">
     <title>Loja - Museu do Mario</title>
 
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/loja.css">
+    <link rel="stylesheet" href="css/pro.css">
+    <link rel="stylesheet" href="css/movimento.css">
 </head>
 
-<body class="pagina-loja">
+<body class="pagina-loja pagina-pro">
 
     <nav class="navbar">
         <a href="index.html" class="navbar-logo">
@@ -51,47 +51,23 @@
     </nav>
 
     <main>
-        <section class="loja-hero" aria-labelledby="loja-titulo">
-            <div class="loja-hero-conteudo">
-                <p class="loja-sobretitulo">LOJA DE GAMES NINTENDO</p>
-                <h1 id="loja-titulo">Sua próxima aventura começa aqui!</h1>
-                <p class="loja-hero-descricao">
-                    Mario, Zelda, Donkey Kong e outros mundos incríveis em um só catálogo.
-                </p>
-                <a class="loja-cta" href="#catalogo">Explorar produtos <span aria-hidden="true">↓</span></a>
-                <p class="loja-aviso">Vitrine demonstrativa · preços e produtos ilustrativos</p>
-            </div>
-            <div class="loja-hero-arte" aria-hidden="true">
-                <span class="hero-estrela">★</span>
-                <img src="images/mario.png" alt="">
-                <span class="hero-moeda">●</span>
+        <section class="loja-hero" aria-label="Jogos em destaque">
+            <img class="deco deco1" src="images/super-estrela.png" alt="" aria-hidden="true">
+            <img class="deco deco2" src="images/moeda.png" alt="" aria-hidden="true">
+            <img class="deco deco3" src="images/super-cogumelo.png" alt="" aria-hidden="true">
+            <div class="caixa">
+                <div class="destaque" id="destaque" aria-roledescription="carrossel"></div>
             </div>
         </section>
 
-        <section class="loja-beneficios" aria-label="Benefícios da loja">
-            <article>
-                <span aria-hidden="true">★</span>
-                <div><strong>Jogos em destaque</strong><small>Novidades e clássicos da Nintendo</small></div>
-            </article>
-            <article>
-                <span aria-hidden="true">●</span>
-                <div><strong>Preços ilustrativos</strong><small>Catálogo pronto para demonstração</small></div>
-            </article>
-            <article>
-                <span aria-hidden="true">♥</span>
-                <div><strong>Experiência nostálgica</strong><small>Uma viagem pelos clássicos da Nintendo</small></div>
-            </article>
-        </section>
-
-        <section class="loja-catalogo" id="catalogo" aria-labelledby="catalogo-titulo">
+        <section class="loja-catalogo caixa" id="catalogo" aria-labelledby="catalogo-titulo">
             <div class="catalogo-cabecalho">
                 <div>
-                    <p class="loja-sobretitulo">ESCOLHA SEU POWER-UP</p>
-                    <h2 id="catalogo-titulo">Vitrine de produtos</h2>
+                    <p class="loja-sobretitulo">CATÁLOGO</p>
+                    <h2 id="catalogo-titulo">Todos os jogos do Mario</h2>
                 </div>
                 <button class="carrinho-abrir" id="abrir-carrinho" type="button" aria-haspopup="dialog">
-                    <span aria-hidden="true">🛒</span>
-                    Meu carrinho
+                    <span aria-hidden="true">🛒</span> Carrinho
                     <span class="carrinho-contador" id="carrinho-contador" aria-live="polite">0</span>
                 </button>
             </div>
@@ -102,13 +78,15 @@
                     <button class="categoria-botao" type="button" data-categoria="aventura" aria-pressed="false">Aventura</button>
                     <button class="categoria-botao" type="button" data-categoria="corrida" aria-pressed="false">Corrida</button>
                     <button class="categoria-botao" type="button" data-categoria="familia" aria-pressed="false">Família</button>
+                    <button class="categoria-botao" type="button" data-categoria="esportes" aria-pressed="false">Esportes</button>
+                    <button class="categoria-botao" type="button" data-categoria="rpg" aria-pressed="false">Estratégia e RPG</button>
                 </div>
 
                 <div class="catalogo-filtros">
                     <label class="busca-campo">
                         <span class="visualmente-oculto">Buscar produto</span>
                         <span aria-hidden="true">⌕</span>
-                        <input id="busca-produtos" type="search" placeholder="Buscar na loja..." autocomplete="off">
+                        <input id="busca-produtos" type="search" placeholder="Buscar jogos..." autocomplete="off">
                     </label>
                     <label class="ordenacao-campo">
                         <span class="visualmente-oculto">Ordenar produtos</span>
@@ -125,21 +103,11 @@
             <p class="catalogo-resultado" id="catalogo-resultado" aria-live="polite"></p>
             <div class="produtos-grade" id="produtos-grade" aria-label="Produtos disponíveis"></div>
         </section>
-
-        <section class="loja-faixa" aria-label="Informações da vitrine">
-            <img src="images/super-cogumelo.png" alt="" aria-hidden="true">
-            <p><strong>Uma loja em construção!</strong> Os jogos e o carrinho são demonstrativos e serão conectados à API depois.</p>
-            <img src="images/super-estrela.png" alt="" aria-hidden="true">
-        </section>
     </main>
 
     <footer class="loja-rodape">
-        <a href="index.html" class="navbar-logo">
-            <span class="logo-mario">MARIO</span>
-            <span class="logo-subtitulo">MUSEU &amp; LOJA</span>
-        </a>
-        <p>Uma viagem nostálgica pelo Reino Cogumelo.</p>
-        <a href="index.html">Voltar ao museu</a>
+        <span>Museu &amp; Loja do Mario · vitrine demonstrativa, projeto de faculdade</span>
+        <span>Dados de jogos: <a href="https://rawg.io" target="_blank" rel="noopener noreferrer">RAWG</a></span>
     </footer>
 
     <div class="carrinho-fundo" id="carrinho-fundo" hidden></div>
@@ -158,15 +126,18 @@
                 <span>Subtotal ilustrativo</span>
                 <strong id="carrinho-total">R$ 0,00</strong>
             </div>
-            <p>O carrinho é apenas uma demonstração. Nenhum pedido será enviado.</p>
-            <button class="finalizar-botao" id="finalizar-pedido" type="button" disabled>
-                Finalização em breve
+            <p>Compra simulada: nenhum pagamento é processado. É preciso estar logado.</p>
+            <button class="finalizar-botao" id="finalizar-pedido" type="button">
+                Finalizar compra
             </button>
         </div>
     </aside>
     <p class="loja-toast" id="loja-toast" role="status" aria-live="polite"></p>
 
     <script src="js/navbar.js"></script>
+    <script src="js/sessao.js"></script>
+    <script src="js/catalogo.js"></script>
+    <script src="js/midia.js"></script>
     <script src="js/loja.js"></script>
     <script src="js/animacoes.js"></script>
 </body>

@@ -3,11 +3,27 @@
 
     const reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // Barra de progresso da rolagem.
+    const barra = document.createElement("div");
+    barra.className = "progresso-rolagem";
+    barra.setAttribute("aria-hidden", "true");
+    document.body.appendChild(barra);
+
+    let quadro = 0;
+    function atualizarBarra() {
+        quadro = 0;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        barra.style.transform = "scaleX(" + (total > 0 ? Math.min(window.scrollY / total, 1) : 0) + ")";
+    }
+    window.addEventListener("scroll", () => { if (!quadro) quadro = requestAnimationFrame(atualizarBarra); }, { passive: true });
+    window.addEventListener("resize", atualizarBarra);
+    atualizarBarra();
+
     if (!reduzido) {
         document.documentElement.classList.add("animacoes-ativas");
 
         document.addEventListener("DOMContentLoaded", () => {
-            const elementos = document.querySelectorAll("main section, .produto-card, .bloco-card, .auth-card");
+            const elementos = document.querySelectorAll("main section, .produto-card, .bloco-card, .auth-card, .compra-card");
 
             if ("IntersectionObserver" in window) {
                 const observer = new IntersectionObserver((entradas) => {
@@ -29,7 +45,7 @@
         });
 
         document.addEventListener("pointermove", (evento) => {
-            const alvo = evento.target.closest(".produto-card, .bloco-card, .auth-card");
+            const alvo = evento.target.closest(".produto-card, .bloco-card, .auth-card, .compra-card");
             if (!alvo) return;
             const ret = alvo.getBoundingClientRect();
             alvo.style.setProperty("--mouse-x", `${evento.clientX - ret.left}px`);

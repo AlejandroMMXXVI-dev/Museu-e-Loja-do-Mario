@@ -1,9 +1,4 @@
-/* =================================================
-   PÁGINA DE LOGIN — ENTRAR + CRIAR CONTA
-   Usa as variáveis visuais do projeto (css/style.css):
-   azul #104eae · amarelo #ffd500 · vermelho #e00000
-   verde #15c20f · fonte Titan One
-================================================= */
+/* Estilos da página de login e cadastro. */
 
 .pagina-login {
     background: #104eae;
@@ -21,7 +16,7 @@
 }
 
 
-/* ---------- Fundo: faixa do macacão + itens flutuantes ---------- */
+/* Fundo com a faixa do macacão e os itens flutuantes */
 
 .login-pagina::before {
     content: "";
@@ -72,7 +67,7 @@
 }
 
 
-/* ---------- Cabeçalho ---------- */
+/* Cabeçalho */
 
 .login-container {
     width: 100%;
@@ -108,7 +103,7 @@
 }
 
 
-/* ---------- Cards lado a lado ---------- */
+/* Cards */
 
 .login-cards {
     display: grid;
@@ -152,7 +147,7 @@
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
 
-/* Fita colorida no topo (camisa do Mario / do Luigi) */
+/* Faixa colorida no topo */
 
 .auth-card::before {
     content: "";
@@ -219,7 +214,7 @@
 }
 
 
-/* ---------- Formulário ---------- */
+/* Formulário */
 
 .auth-form {
     display: flex;
@@ -302,7 +297,7 @@
     75%      { transform: translateX(5px); }
 }
 
-/* Senha com botão de olho */
+/* Campo de senha */
 
 .campo-senha {
     position: relative;
@@ -339,7 +334,7 @@
     background: rgba(255, 213, 0, 0.25);
 }
 
-/* Checkbox */
+/* Termos */
 
 .auth-linha {
     display: flex;
@@ -488,7 +483,7 @@
 }
 
 
-/* ---------- Divisor central ---------- */
+/* Divisor central */
 
 .auth-divisor {
     display: flex;
@@ -521,7 +516,7 @@
 }
 
 
-/* Dica no card de login (preenche o espaço com algo útil) */
+/* Dica de login */
 
 .auth-dica {
     display: flex;
@@ -543,7 +538,7 @@
     object-fit: contain;
 }
 
-/* ---------- Aviso (toast) ---------- */
+/* Aviso */
 
 .auth-toast {
     position: fixed;
@@ -575,7 +570,7 @@
 }
 
 
-/* ---------- Entrada animada ---------- */
+/* Entrada animada */
 
 .login-cabecalho,
 .auth-card,
@@ -593,7 +588,7 @@
 }
 
 
-/* ---------- Responsivo ---------- */
+/* Ajustes para telas menores */
 
 @media (max-width: 950px) {
 
