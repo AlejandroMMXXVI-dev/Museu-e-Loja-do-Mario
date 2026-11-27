@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "env": "node scripts/gerar-env.js",
+    "dados": "node scripts/baixar-rawg.js",
     "start": "node scripts/gerar-env.js && npx live-server --port=5501"
   }
 }

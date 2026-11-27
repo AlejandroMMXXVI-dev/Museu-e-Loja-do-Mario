@@ -26,6 +26,7 @@ jobs:
         run: |
           echo "RAWG_KEY=${{ secrets.RAWG_KEY }}" > .env
           node scripts/gerar-env.js
+          node scripts/baixar-rawg.js || echo "Aviso: não foi possível baixar dados da RAWG"
           rm .env
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

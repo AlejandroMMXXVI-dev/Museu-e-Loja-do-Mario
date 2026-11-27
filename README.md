@@ -68,3 +68,13 @@ HTML5 · CSS3 · JavaScript (vanilla)
 2. **Settings → Pages → Source: GitHub Actions**.
 3. **Settings → Secrets and variables → Actions → New repository secret**: nome `RAWG_KEY`, valor = sua chave.
 4. Dê push. O workflow `.github/workflows/pages.yml` gera o `js/env.js` com o secret e publica o site.
+
+## Funcionar atrás de firewall (universidade/escola)
+
+Se a rede bloqueia `api.rawg.io`, baixe os dados uma vez numa rede livre e leve junto com o projeto:
+
+1. Com `.env` preenchido, rode `npm run dados` (casa, 4G ou o GitHub Actions).
+2. Isso gera `js/dados-rawg.js` e as imagens em `images/rawg/`.
+3. O site passa a ler tudo local, sem chamar a RAWG no navegador.
+
+No GitHub Pages isso é feito automaticamente pelo workflow.

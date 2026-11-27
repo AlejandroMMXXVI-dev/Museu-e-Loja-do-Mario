@@ -1,0 +1,16 @@
+BAIXAR DADOS DA RAWG PELO CELULAR (Termux)
+
+1. Instale o Termux (pelo F-Droid) no celular.
+2. Copie esta pasta "termux" para o celular (ex.: em Downloads).
+3. No Termux:
+      termux-setup-storage
+      cd ~/storage/downloads/termux
+      bash baixar.sh
+4. Cole a chave da RAWG quando pedir (fica salva em chave.txt).
+5. Quando acabar, o arquivo Downloads/dados-rawg.zip é criado.
+6. Passe o zip para o PC e extraia DENTRO da pasta do projeto,
+   mesclando com as pastas js/ e images/. Pronto: o site passa a
+   funcionar sem acessar a RAWG.
+
+Use a internet do celular (4G/5G), fora da rede da instituição.
+Se mudar a lista de jogos, copie o novo js/catalogo.js para cá.

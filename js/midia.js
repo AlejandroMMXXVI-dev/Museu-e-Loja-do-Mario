@@ -10,8 +10,15 @@
     const VAZIO = { foto: null };
     const pendentes = new Map(); // Reaproveita consultas que já estão em andamento.
 
-    function temChave() {
+    // Dados baixados antes (npm run dados): funcionam sem chave e sem acessar a RAWG.
+    const ESTATICO = window.RAWG_DADOS || { fotos: {}, detalhes: {} };
+
+    function temChaveApi() {
         return !!RAWG_KEY && !RAWG_KEY.startsWith("COLE");
+    }
+
+    function temChave() {
+        return temChaveApi() || Object.keys(ESTATICO.detalhes || {}).length > 0;
     }
 
     function lerCache(chave) {
@@ -48,9 +55,10 @@
 
     function buscar(nome) {
 
+        if (ESTATICO.fotos && ESTATICO.fotos[nome]) return Promise.resolve(ESTATICO.fotos[nome]);
         const cache = lerCache(CHAVE_FOTOS);
         if (cache[nome]) return Promise.resolve(cache[nome]);
-        if (!temChave()) return Promise.resolve(VAZIO);
+        if (!temChaveApi()) return Promise.resolve(VAZIO);
         if (pendentes.has(nome)) return pendentes.get(nome);
 
         const promessa = acharJogo(nome)
@@ -69,7 +77,8 @@
 
     async function detalhes(nome) {
 
-        if (!temChave()) return null;
+        if (ESTATICO.detalhes && ESTATICO.detalhes[nome]) return ESTATICO.detalhes[nome];
+        if (!temChaveApi()) return null;
 
         const cache = lerCache(CHAVE_DETALHES);
         if (cache[nome]) return cache[nome];
