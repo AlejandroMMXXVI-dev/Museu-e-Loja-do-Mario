@@ -2,7 +2,7 @@
 (function () {
     "use strict";
 
-    const RAWG_KEY = "";
+    const RAWG_KEY = (window.ENV && window.ENV.RAWG_KEY) || "";
     const API = "https://api.rawg.io/api";
     const CHAVE_FOTOS = "mario_midia_cache";
     const CHAVE_DETALHES = "mario_detalhes_cache";

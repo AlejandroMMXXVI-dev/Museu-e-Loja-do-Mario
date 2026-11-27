@@ -54,3 +54,17 @@ HTML5 · CSS3 · JavaScript (vanilla)
 ---
 
 *Projeto fan-made e sem fins comerciais. Mario e personagens são marcas da Nintendo.*
+
+## Chave da API (RAWG)
+
+1. Copie `.env.example` para `.env` e preencha `RAWG_KEY` (chave grátis em https://rawg.io/apidocs).
+2. Rode `npm run env` para gerar `js/env.js` (ou `npm start`, que gera e sobe o servidor).
+
+`.env` e `js/env.js` ficam fora do Git. Como o site é front-end puro, a chave continua visível no navegador; a variável só evita deixá-la no código-fonte.
+
+## Publicar no GitHub Pages
+
+1. Suba o projeto para um repositório no GitHub (branch `main`).
+2. **Settings → Pages → Source: GitHub Actions**.
+3. **Settings → Secrets and variables → Actions → New repository secret**: nome `RAWG_KEY`, valor = sua chave.
+4. Dê push. O workflow `.github/workflows/pages.yml` gera o `js/env.js` com o secret e publica o site.
